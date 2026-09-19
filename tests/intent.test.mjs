@@ -1,0 +1,12 @@
+﻿import test from 'node:test';
+import assert from 'node:assert/strict';
+import {PEOPLE,calculate} from '../lib/split.ts';
+import {sampleReceipt} from '../lib/sample.ts';
+import {validateIntent,confirmReceipt} from '../lib/intent.ts';
+const fresh=()=>({receipt:structuredClone(sampleReceipt),people:structuredClone(PEOPLE),allocation:{},revision:0});
+const intent=(assignments)=>({assignments,question:null,candidateItemIds:[],candidatePersonIds:[],confirmation:null});
+test('ambiguous coffee proposal becomes a question without silent allocation',()=>{const parsed=validateIntent(fresh(),intent([{itemIds:['r1.1'],personIds:['p2']}]),'Sam had a coffee.');assert.deepEqual(parsed.assignments,[]);assert.deepEqual(parsed.candidateItemIds,['r1.1','r2.1']);assert.equal(parsed.question,'Which coffee did Sam mean?');});
+test('second coffee correction preserves stable ID',()=>{const parsed=validateIntent(fresh(),intent([{itemIds:['r2.1'],personIds:['p2']}]),"Actually, the second coffee was Sam's.");assert.equal(parsed.question,null);assert.deepEqual(parsed.assignments,[{itemIds:['r2.1'],personIds:['p2']}]);});
+test('both coffees may be assigned explicitly to one person',()=>{const parsed=validateIntent(fresh(),intent([{itemIds:['r1.1','r2.1'],personIds:['p1']}]),'Alex had both coffees.');assert.equal(parsed.assignments.length,1);assert.equal(parsed.question,null);});
+test('invalid clarification targets are rejected',()=>{assert.throws(()=>validateIntent(fresh(),{...intent([]),question:'Which?',candidateItemIds:['r99.1']},'Which?'));});
+test('a spoken amount proposal does not mutate receipt until confirmed',()=>{const state=fresh();state.receipt.rows[2].amountMinor=null;state.receipt.rows[2].uncertain=true;const original=structuredClone(state);const confirmation={field:'row',rowId:'r3',amountMinor:1240,name:null};validateIntent(state,{...intent([]),confirmation},'The pasta is twelve euros forty.');assert.deepEqual(state,original);const confirmed=confirmReceipt(state,confirmation);assert.equal(confirmed.receipt.rows[2].amountMinor,1240);assert.equal(confirmed.receipt.rows[2].uncertain,false);assert.equal(calculate(confirmed).settled,false);});

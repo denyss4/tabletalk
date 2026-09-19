@@ -1,0 +1,62 @@
+﻿[
+    {
+        "file":  "normal.wav",
+        "name":  "normal",
+        "voice":  "Microsoft Zira Desktop",
+        "text":  "Alex had the first coffee, pasta and fries. Sam had the second coffee and burger. Lee had the salad.",
+        "generationCostUSD":  0,
+        "generation":  "Windows System.Speech; not human recordings",
+        "synthetic":  true,
+        "sampleRate":  24000
+    },
+    {
+        "file":  "shared.wav",
+        "name":  "shared",
+        "voice":  "Microsoft Zira Desktop",
+        "text":  "Alex had the first coffee and pasta. Sam had the second coffee and burger. Lee had the salad. Split the fries equally between all three of us.",
+        "generationCostUSD":  0,
+        "generation":  "Windows System.Speech; not human recordings",
+        "synthetic":  true,
+        "sampleRate":  24000
+    },
+    {
+        "file":  "before-correction.wav",
+        "name":  "before-correction",
+        "voice":  "Microsoft Zira Desktop",
+        "text":  "Alex had both coffees and pasta. Sam had the burger. Lee had the salad. Share the fries equally between everyone.",
+        "generationCostUSD":  0,
+        "generation":  "Windows System.Speech; not human recordings",
+        "synthetic":  true,
+        "sampleRate":  24000
+    },
+    {
+        "file":  "correction.wav",
+        "name":  "correction",
+        "voice":  "Microsoft Zira Desktop",
+        "text":  "Actually, the second coffee was Sam\u0027s.",
+        "generationCostUSD":  0,
+        "generation":  "Windows System.Speech; not human recordings",
+        "synthetic":  true,
+        "sampleRate":  24000
+    },
+    {
+        "file":  "ambiguous.wav",
+        "name":  "ambiguous",
+        "voice":  "Microsoft Zira Desktop",
+        "text":  "Sam had a coffee.",
+        "generationCostUSD":  0,
+        "generation":  "Windows System.Speech; not human recordings",
+        "synthetic":  true,
+        "sampleRate":  24000
+    },
+    {
+        "file":  "clarify-price.wav",
+        "name":  "clarify-price",
+        "voice":  "Microsoft Zira Desktop",
+        "text":  "The pasta is twelve euros and forty cents.",
+        "generationCostUSD":  0,
+        "generation":  "Windows System.Speech; not human recordings",
+        "synthetic":  true,
+        "sampleRate":  24000
+    }
+]

@@ -1,0 +1,13 @@
+{
+  "recordedBeforeTesting": "2026-09-18T14:08:00Z",
+  "currency": "EUR",
+  "receipt": {"itemAmountsMinor": [280,280,1240,1160,810,570], "subtotalMinor":4340,"serviceMinor":435,"totalMinor":4775},
+  "peopleOrder": ["Alex","Sam","Lee"],
+  "scenarios": [
+    {"id":"normal","utterances":["Alex had the first coffee, pasta and fries. Sam had the second coffee and burger. Lee had the salad."],"expectedSubtotals":[2090,1440,810],"expectedService":[210,144,81],"expectedTotals":[2300,1584,891],"expectedSettled":true},
+    {"id":"shared","utterances":["Alex had the first coffee and pasta. Sam had the second coffee and burger. Lee had the salad. Split the fries equally between all three of us."],"expectedSubtotals":[1710,1630,1000],"expectedService":[172,163,100],"expectedTotals":[1882,1793,1100],"expectedSettled":true},
+    {"id":"correction","utterances":["Alex had both coffees and pasta. Sam had the burger. Lee had the salad. Share the fries equally between everyone.","Actually, the second coffee was Sam's."],"expectedTotalsBefore":[2190,1485,1100],"expectedTotalsAfter":[1882,1793,1100],"expectedItemCount":6,"expectedSettled":true},
+    {"id":"ambiguous","utterances":["Sam had a coffee."],"expectedQuestion":"Which coffee did Sam have?","expectedNoSilentAllocation":true,"expectedSettled":false},
+    {"id":"unreadable","utterances":["Alex had the first coffee and pasta. Sam had the second coffee and burger. Lee had the salad. Share the fries between all three."],"expectedSettled":false,"expectedBehavior":"Ask to read the obscured amount aloud or request a clearer photo. Never infer a hidden amount from the total as verified recognition."}
+  ]
+}

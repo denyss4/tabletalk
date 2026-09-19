@@ -1,0 +1,41 @@
+{
+  "runAt": "2026-09-19T01:14:43.502Z",
+  "recognitionTested": false,
+  "results": [
+    {
+      "scenario": "normal",
+      "scope": "deterministic core; no live recognition",
+      "actualTotals": [
+        2300,
+        1584,
+        891
+      ],
+      "settled": true
+    },
+    {
+      "scenario": "shared",
+      "scope": "deterministic core; no live recognition",
+      "actualTotals": [
+        1882,
+        1793,
+        1100
+      ],
+      "settled": true
+    },
+    {
+      "scenario": "correction",
+      "scope": "deterministic core; no live recognition",
+      "actualTotals": [
+        1882,
+        1793,
+        1100
+      ],
+      "itemCount": 6
+    },
+    {
+      "scenario": "unreadable",
+      "scope": "deterministic core; no live recognition",
+      "settled": false
+    }
+  ]
+}
