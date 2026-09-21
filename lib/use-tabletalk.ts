@@ -40,7 +40,7 @@ export function useTabletalk(){
  useEffect(()=>{if(settled&&startedAt.current!==null){const ms=Date.now()-startedAt.current;setSettledMs(ms);setFirstSettledMs(x=>x??ms);}else setSettledMs(null);},[settled,state?.revision]);
  const run=useCallback(async(label:string,task:()=>Promise<void>)=>{if(busyRef.current)return;busyRef.current=true;setBusy(label);setError('');try{await task();}catch(e){if(e instanceof RecognitionUnavailableError)setConfigured(false);setError(e instanceof Error?e.message:'Something went wrong. Please try again.');}finally{busyRef.current=false;setBusy('');}},[]);
  async function api(path:string,body:BodyInit,headers?:HeadersInit){
-  let response:Response;try{response=await fetch(path,{method:'POST',body,headers,signal:AbortSignal.timeout(100_000)});}catch{throw new Error('Recognition could not connect or timed out. Your input is kept; please retry.');}
+  let response:Response;try{response=await fetch(path,{method:'POST',body,headers,signal:AbortSignal.timeout(110_000)});}catch{throw new Error('Recognition could not connect or timed out. Your input is kept; please retry.');}
   let data:{operations?:Operation[];error?:string;code?:string;receipt:Receipt;intent:Intent;transcript:string;revision:number};try{data=await response.json();}catch{throw new Error('The recognition service returned an unreadable response. Please retry.');}
   if(data.operations)setOperations(o=>[...o,...(data.operations??[])]);if(!response.ok){if(data.code==='RECOGNITION_NOT_CONFIGURED')throw new RecognitionUnavailableError(data.error);throw new Error(data.error??'Recognition failed. Please try again.');}setConfigured(true);return data;
  }

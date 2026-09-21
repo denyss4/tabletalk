@@ -16,7 +16,11 @@ export async function provider(path:string,body:BodyInit,headers:Record<string,s
  const started=Date.now(); const operation:Operation={id:crypto.randomUUID(),stage,model,provider:new URL(base).origin,latencyMs:0,status:'started',costUSD:null,costBasis:'Unknown until provider usage is received'};
  operations.push(operation);
  try{
-  const response=await fetch(`${base}/${path}`,{method:'POST',headers:{...headers,Authorization:`Bearer ${key}`},body,redirect:'manual',signal:AbortSignal.timeout(45_000)});
+  // Difficult receipt photos can take longer than intent or transcription calls.
+  // Keep every request bounded, while allowing photo extraction to finish before
+  // the Vercel route's 120 second execution limit.
+  const timeoutMs=stage==='receipt'?90_000:45_000;
+  const response=await fetch(`${base}/${path}`,{method:'POST',headers:{...headers,Authorization:`Bearer ${key}`},body,redirect:'manual',signal:AbortSignal.timeout(timeoutMs)});
   if(!response.ok){if(response.status===429){const detail=await response.json().catch(()=>null) as {error?:{code?:string;type?:string}}|null;const quota=detail?.error?.code==='insufficient_quota'||detail?.error?.type==='insufficient_quota';throw new AppError(quota?'The recognition account has no available API credit. Add credit or update the server key, then retry. Your input is kept.':'Recognition is temporarily rate limited. Wait a moment, then retry. Your input is kept.',429,quota?'INSUFFICIENT_QUOTA':'RATE_LIMITED');}if(response.status===401)throw new AppError('The recognition key is not accepted. Check the server configuration.',503);throw new AppError(`Recognition failed (${response.status}). Your split has been kept. Please try again.`,502);}
   const data=await response.json() as ProviderResponse;
   operation.usage=data.usage??null;

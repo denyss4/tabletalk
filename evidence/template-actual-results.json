@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-09-21T12:11:20.296Z",
+  "testedAt": "2026-09-21T20:37:52.071Z",
   "checks": {
     "typecheck": "passed",
     "lint": "passed",
@@ -37,7 +37,19 @@
     },
     {
       "id": "vault-164",
-      "result": "Gallery and full photo preview checked; live recognition not tested in this change"
+      "method": "Posted the supplied Vault 164 image to the local Next.js API using the real configured recognition endpoint",
+      "beforeFix": {
+        "status": 504,
+        "providerLatencyMs": 45013,
+        "result": "The app aborted the provider request at its previous 45 second limit"
+      },
+      "actual": {
+        "status": 422,
+        "elapsedMs": 69822,
+        "providerLatencyMs": 69024,
+        "providerStatus": "succeeded"
+      },
+      "result": "Matched the recorded expectation: recognition completed, then the deterministic validator declined the receipt because it is not visibly EUR"
     },
     {
       "id": "bang-ria-grill",
