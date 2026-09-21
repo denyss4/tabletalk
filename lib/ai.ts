@@ -1,5 +1,4 @@
-﻿import { env } from 'cloudflare:workers';
-function setting(name:string){return ((env as unknown as Record<string,string>)[name]||process.env[name]||'').trim();}
+function setting(name:string){return (process.env[name]||'').trim();}
 export const MODEL=setting('OPENAI_MODEL')||'gpt-4.1-mini-2025-04-14';
 export const TRANSCRIBE_MODEL=setting('OPENAI_TRANSCRIBE_MODEL')||'gpt-4o-mini-transcribe';
 export const SPEECH_MODE=setting('SPEECH_MODE')==='browser'?'browser':'provider';
@@ -9,7 +8,7 @@ type ProviderUsage={seconds?:number;input_tokens?:number;output_tokens?:number;i
 type ProviderContent={type?:string;text?:string};
 type ProviderOutput={content?:ProviderContent[]};
 type ProviderResponse={status?:string;usage?:ProviderUsage;output?:ProviderOutput[];text?:string};
-export function apiKey(){return ((env as unknown as Record<string,string>).OPENAI_API_KEY || process.env.OPENAI_API_KEY || '').trim();}
+export function apiKey(){return setting('OPENAI_API_KEY');}
 export class AppError extends Error { constructor(message:string,public status=400,public code='RECOGNITION_FAILED'){super(message);} }
 export async function provider(path:string,body:BodyInit,headers:Record<string,string>,stage:string,model:string,operations:Operation[],audioSeconds?:number){
  const key=apiKey(); if(!key)throw new AppError('Photo and voice recognition need a server connection. Configure the service, check the connection, then retry.',503,'RECOGNITION_NOT_CONFIGURED');

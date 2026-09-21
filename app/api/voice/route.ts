@@ -1,6 +1,6 @@
 import {z} from 'zod';
 import type {SplitState} from '@/lib/split';
-﻿import {AppError,failure,provider,sameOrigin,structured,TRANSCRIBE_MODEL,SPEECH_MODE,type Operation} from '@/lib/ai';
+import {AppError,failure,provider,sameOrigin,structured,TRANSCRIBE_MODEL,SPEECH_MODE,type Operation} from '@/lib/ai';
 import {intentJsonSchema,intentSchema,stateSchema} from '@/lib/schemas';
 import {itemsOf,validateReceipt} from '@/lib/split';
 import {validateIntent} from '@/lib/intent';

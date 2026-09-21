@@ -38,7 +38,7 @@ Do not submit this document as complete until every item marked **pending** has 
 
 - RSI AI is configured at https://www.rsiai.net/v1 with model gpt-5.6-sol. Live photo extraction and supplied-transcript interpretation pass; results are in evidence/live-recognition-results.json. This provider has no channel for the tested audio model, so browser SpeechRecognition is used for live speech. Physical microphone transcription and intermediary pricing remain unverified.
 - The first long-running development preview loaded stale optimized React bundles after dependency installation. A clean restart fixed it; the subsequent browser flow passed without console errors.
-- The standard Sites build wrapper could not find npm through the Windows shim in this environment. Running the starter's underlying production build directly succeeded.
+- The production build now runs through Next.js and produces the `.next` output expected by Vercel, including `routes-manifest.json` and all three API routes.
 - Focused time was not tracked accurately. Calendar timestamps include inactive time and must not be reported as focused work.
 
 ## AI output check example

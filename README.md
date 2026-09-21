@@ -22,6 +22,21 @@ npm test
 npm run build
 ```
 
+## Deploy to Vercel
+
+Import this repository with the **Next.js** framework preset. Leave the Output Directory override disabled so Vercel uses the framework default (`.next`). The checked-in `vercel.json` fixes the framework and build command for new deployments.
+
+Configure these server environment variables in Vercel for Production and Preview as needed:
+
+```text
+OPENAI_API_KEY=your-provider-key
+OPENAI_BASE_URL=https://www.rsiai.net/v1
+OPENAI_MODEL=gpt-5.6-sol
+SPEECH_MODE=browser
+```
+
+The build does not require a key, but live receipt and voice interpretation do. Never add the key to the repository or use a `NEXT_PUBLIC_` prefix.
+
 ## Product flow
 
 1. Add a clear JPG, PNG, or WebP receipt photo.
@@ -74,7 +89,7 @@ The main modules are:
 - Current speech-to-text: browser SpeechRecognition; final transcripts go to RSI AI for intent mapping. RSI AI has no channel for the tested transcription model. Recording upload is unavailable in browser mode. Direct OpenAI mode can use `gpt-4o-mini-transcribe`.
 - Generated test receipt photos: OpenAI image generation. The photos are fictional and shareable.
 - Synthetic test speech: Microsoft Zira Desktop through Windows System.Speech. The manifest records every utterance and identifies the recordings as synthetic.
-- UI foundation: the supplied Vinext/React starter, Tailwind CSS, Radix-based components, Lucide icons, and Zod.
+- UI foundation: the supplied React starter running through Next.js, Tailwind CSS, Radix-based components, Lucide icons, and Zod.
 
 Own changes include the product interface, receipt and intent schemas, validation pipeline, allocation state, exact arithmetic, ambiguity rules, evidence logger, test fixtures, tests, and delivery documentation.
 
