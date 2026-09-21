@@ -2,12 +2,12 @@
   "recordedBeforeLiveTesting": true,
   "tests": [
     {
-      "id": "vault-164",
-      "expected": "Must not settle: currency is not explicitly EUR and tax/surcharge cannot be represented."
+      "id": "bella-mbriana",
+      "expected": "Four item rows: 3000, 1000, 450 and 400 cents, with the last row quantity 2. Cover charge 250 cents and total 5100 EUR. The unprinted item subtotal must remain unresolved until confirmed."
     },
     {
-      "id": "bang-ria-grill",
-      "expected": "Must not settle: non-explicit currency and additional tax. Preserve photo if recognition rejects."
+      "id": "pochi-panini-e-poi",
+      "expected": "Seven item rows: 2400, 2700, 900, 1000, 500, 400 and 1600 cents, with quantities 3, 3, 1, 2, 1, 2 and 4. Service charge 1520 cents and total 11020 EUR. The unprinted item subtotal must remain unresolved until confirmed."
     },
     {
       "id": "pizzaferaj-city",

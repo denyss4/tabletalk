@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-09-21T20:37:52.071Z",
+  "testedAt": "2026-09-21T21:23:48.990Z",
   "checks": {
     "typecheck": "passed",
     "lint": "passed",
@@ -36,24 +36,62 @@
       "result": "Matched expected extraction; missing fields remain unresolved"
     },
     {
-      "id": "vault-164",
-      "method": "Posted the supplied Vault 164 image to the local Next.js API using the real configured recognition endpoint",
-      "beforeFix": {
-        "status": 504,
-        "providerLatencyMs": 45013,
-        "result": "The app aborted the provider request at its previous 45 second limit"
-      },
+      "id": "bella-mbriana",
+      "method": "JPEG re-encoded at quality 90 to match browser photo preparation, then posted to the real configured recognition endpoint",
       "actual": {
-        "status": 422,
-        "elapsedMs": 69822,
-        "providerLatencyMs": 69024,
-        "providerStatus": "succeeded"
+        "status": 200,
+        "elapsedMs": 19106,
+        "providerLatencyMs": 18912,
+        "rowAmountsMinor": [
+          3000,
+          1000,
+          450,
+          400
+        ],
+        "quantities": [
+          1,
+          1,
+          1,
+          2
+        ],
+        "currency": "EUR",
+        "subtotalMinor": null,
+        "serviceMinor": 250,
+        "totalMinor": 5100
       },
-      "result": "Matched the recorded expectation: recognition completed, then the deterministic validator declined the receipt because it is not visibly EUR"
+      "result": "Matched expected monetary extraction; the unprinted subtotal remains unresolved"
     },
     {
-      "id": "bang-ria-grill",
-      "result": "Gallery entry checked; live recognition not tested in this change"
+      "id": "pochi-panini-e-poi",
+      "method": "JPEG re-encoded at quality 90 to match browser photo preparation, then posted to the real configured recognition endpoint",
+      "actual": {
+        "status": 200,
+        "elapsedMs": 31641,
+        "providerLatencyMs": 31396,
+        "rowAmountsMinor": [
+          2400,
+          2700,
+          900,
+          1000,
+          500,
+          400,
+          1600
+        ],
+        "quantities": [
+          3,
+          3,
+          1,
+          2,
+          1,
+          2,
+          4
+        ],
+        "currency": "EUR",
+        "subtotalMinor": null,
+        "serviceMinor": 1520,
+        "totalMinor": 11020
+      },
+      "result": "Matched expected monetary extraction; the unprinted subtotal remains unresolved"
     }
   ]
 }

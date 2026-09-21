@@ -41,7 +41,7 @@ export async function provider(path:string,body:BodyInit,headers:Record<string,s
  finally{operation.latencyMs=Date.now()-started;console.info(JSON.stringify({event:'ai_operation',...operation}));}
 }
 export async function structured(instructions:string,input:unknown,schema:unknown,stage:string,operations:Operation[]){
- const data=await provider('responses',JSON.stringify({model:MODEL,store:false,...(MODEL.startsWith('gpt-4')?{temperature:0}:{}),instructions,input,text:{format:{type:'json_schema',name:stage,strict:true,schema}}}),{'Content-Type':'application/json'},stage,MODEL,operations);
+ const data=await provider('responses',JSON.stringify({model:MODEL,store:false,...(MODEL.startsWith('gpt-4')?{temperature:0}:{}),...(MODEL.startsWith('gpt-5')?{reasoning:{effort:'low'}}:{}),instructions,input,text:{format:{type:'json_schema',name:stage,strict:true,schema}}}),{'Content-Type':'application/json'},stage,MODEL,operations);
  if(data.status!=='completed')throw new AppError('Recognition did not finish. Please retry with a clearer input.',502);
  const parts=(data.output??[]).flatMap(x=>x.content??[]);
  const value=parts.filter(x=>x.type==='output_text').map(x=>x.text??'').join('');
