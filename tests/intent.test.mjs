@@ -1,6 +1,6 @@
 ﻿import test from 'node:test';
 import assert from 'node:assert/strict';
-import {PEOPLE,calculate} from '../lib/split.ts';
+import {PEOPLE,applyAssignments,calculate,itemsOf} from '../lib/split.ts';
 import {sampleReceipt} from '../lib/sample.ts';
 import {validateIntent,confirmReceipt} from '../lib/intent.ts';
 const fresh=()=>({receipt:structuredClone(sampleReceipt),people:structuredClone(PEOPLE),allocation:{},revision:0});
@@ -10,3 +10,4 @@ test('second coffee correction preserves stable ID',()=>{const parsed=validateIn
 test('both coffees may be assigned explicitly to one person',()=>{const parsed=validateIntent(fresh(),intent([{itemIds:['r1.1','r2.1'],personIds:['p1']}]),'Alex had both coffees.');assert.equal(parsed.assignments.length,1);assert.equal(parsed.question,null);});
 test('invalid clarification targets are rejected',()=>{assert.throws(()=>validateIntent(fresh(),{...intent([]),question:'Which?',candidateItemIds:['r99.1']},'Which?'));});
 test('a spoken amount proposal does not mutate receipt until confirmed',()=>{const state=fresh();state.receipt.rows[2].amountMinor=null;state.receipt.rows[2].uncertain=true;const original=structuredClone(state);const confirmation={field:'row',rowId:'r3',amountMinor:1240,name:null};validateIntent(state,{...intent([]),confirmation},'The pasta is twelve euros forty.');assert.deepEqual(state,original);const confirmed=confirmReceipt(state,confirmation);assert.equal(confirmed.receipt.rows[2].amountMinor,1240);assert.equal(confirmed.receipt.rows[2].uncertain,false);assert.equal(calculate(confirmed).settled,false);});
+test('absent subtotal and service stay unresolved until explicitly confirmed',()=>{let state=fresh();state.receipt.subtotalMinor=null;state.receipt.subtotalStatus='not_printed';state.receipt.serviceMinor=null;state.receipt.serviceStatus='not_printed';state.receipt.totalMinor=4340;state.receipt.totalStatus='printed';state.receipt.warnings=['No service charge is explicitly printed.'];state=applyAssignments(state,[{itemIds:itemsOf(state.receipt).map(item=>item.id),personIds:['p1']}]);assert.equal(calculate(state).settled,false);state=confirmReceipt(state,{field:'subtotalMinor',rowId:null,amountMinor:4340,name:null});assert.equal(state.receipt.subtotalStatus,'confirmed');assert.equal(calculate(state).settled,false);state=confirmReceipt(state,{field:'serviceMinor',rowId:null,amountMinor:0,name:null});assert.equal(state.receipt.serviceStatus,'confirmed');assert.deepEqual(state.receipt.warnings,[]);assert.equal(calculate(state).settled,true);assert.equal(calculate(state).sum,4340);});

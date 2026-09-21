@@ -1,0 +1,26 @@
+{
+  "testedAt": "2026-09-19T15:04:38.027Z",
+  "customUpload": {
+    "accepted": true,
+    "preservedOnQuotaFailure": true,
+    "retryAvailable": true,
+    "noUnresolvedTotals": true
+  },
+  "mobile": {
+    "viewport": 390,
+    "scrollWidth": 380
+  },
+  "voiceControls": {
+    "recordEnabledWithReceipt": true,
+    "audioUploadEnabledWithReceipt": true
+  },
+  "microphoneCapture": "not exercised with physical microphone",
+  "liveRecognition": "blocked: OpenAI INSUFFICIENT_QUOTA",
+  "checks": {
+    "unitTests": 15,
+    "typecheck": "pass",
+    "lint": "pass",
+    "build": "pass",
+    "clientSecretOccurrences": 0
+  }
+}

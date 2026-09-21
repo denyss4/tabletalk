@@ -1,0 +1,17 @@
+{
+  "recordedBeforeLiveTesting": true,
+  "tests": [
+    {
+      "id": "vault-164",
+      "expected": "Must not settle: currency is not explicitly EUR and tax/surcharge cannot be represented."
+    },
+    {
+      "id": "bang-ria-grill",
+      "expected": "Must not settle: non-explicit currency and additional tax. Preserve photo if recognition rejects."
+    },
+    {
+      "id": "pizzaferaj-city",
+      "expected": "Five rows: 900 (quantity 2), 430, 1400, 1400, 1600 cents. Total 5730 EUR. No printed subtotal or service charge: require clarification, never mark settled."
+    }
+  ]
+}

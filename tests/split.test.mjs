@@ -1,7 +1,7 @@
 ﻿import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync} from 'node:fs';
-import {PEOPLE,apportion,applyAssignments,calculate,itemsOf} from '../lib/split.ts';
+import {PEOPLE,apportion,applyAssignments,calculate,itemsOf,receiptAmountLabel} from '../lib/split.ts';
 import {sampleReceipt} from '../lib/sample.ts';
 const expected=JSON.parse(readFileSync(new URL('../evidence/expected-results.json',import.meta.url),'utf8'));
 const fresh=()=>({receipt:structuredClone(sampleReceipt),people:structuredClone(PEOPLE),allocation:{},revision:0});
@@ -41,6 +41,7 @@ test('quantity two yields separate unit IDs and preserves an odd row total',()=>
  const receipt=structuredClone(sampleReceipt);receipt.rows=[{id:'r1',name:'Coffee',quantity:2,amountMinor:561,uncertain:false}];
  assert.deepEqual(itemsOf(receipt).map(x=>[x.id,x.amountMinor]),[['r1.1',281],['r1.2',280]]);
 });
+test('receipt field labels distinguish absent print from unreadable text',()=>{assert.equal(receiptAmountLabel(null,'not_printed'),'Not printed');assert.equal(receiptAmountLabel(null,'unreadable'),'Unreadable');assert.equal(receiptAmountLabel(0,'confirmed'),'€0.00');});
 test('equal shared cents and proportional ties use fixed person order',()=>{
  assert.deepEqual(apportion(100,[1,1,1]),[34,33,33]);
  assert.deepEqual(apportion(1,[0,1,1]),[0,1,0]);

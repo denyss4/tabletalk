@@ -1,12 +1,14 @@
 export type Person = { id: string; name: string };
 export type Row = { id: string; name: string; quantity: number; amountMinor: number | null; uncertain: boolean };
-export type Receipt = { merchant: string; currency: string; rows: Row[]; subtotalMinor: number | null; serviceMinor: number | null; totalMinor: number | null; warnings: string[] };
+export type ReceiptFieldStatus = 'printed' | 'not_printed' | 'unreadable' | 'confirmed';
+export type Receipt = { merchant: string; currency: string; rows: Row[]; subtotalMinor: number | null; subtotalStatus: ReceiptFieldStatus; serviceMinor: number | null; serviceStatus: ReceiptFieldStatus; totalMinor: number | null; totalStatus: ReceiptFieldStatus; warnings: string[] };
 export type Item = { id: string; rowId: string; name: string; amountMinor: number | null; uncertain: boolean };
 export type Allocation = Record<string, string[]>;
 export type SplitState = { receipt: Receipt; people: Person[]; allocation: Allocation; revision: number };
 export type Assignment = { itemIds: string[]; personIds: string[] };
 export const PEOPLE: Person[] = [{ id: 'p1', name: 'Alex' }, { id: 'p2', name: 'Sam' }, { id: 'p3', name: 'Lee' }];
 export const money = (amount: number | null) => amount === null ? 'Unreadable' : new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(amount / 100);
+export const receiptAmountLabel = (amount: number | null, status: ReceiptFieldStatus) => amount !== null ? money(amount) : status === 'not_printed' ? 'Not printed' : 'Unreadable';
 export function isMinor(n: unknown): n is number { return typeof n === 'number' && Number.isSafeInteger(n) && n >= 0 && n <= 100_000_000; }
 // Largest remainder; supplied stable order breaks ties. BigInt keeps products exact.
 export function apportion(total: number, weights: number[]): number[] {
@@ -26,7 +28,10 @@ export function validateReceipt(r: Receipt): void {
   for (const row of r.rows) {
     if (!row.id || !row.name?.trim() || !Number.isInteger(row.quantity) || row.quantity < 1 || row.quantity > 10 || (row.amountMinor !== null && !isMinor(row.amountMinor))) throw new Error('A receipt row could not be read reliably. Please retake the photo.');
   }
-  for (const n of [r.subtotalMinor, r.serviceMinor, r.totalMinor]) if (n !== null && !isMinor(n)) throw new Error('Invalid receipt amount.');
+  for (const [amount,status] of [[r.subtotalMinor,r.subtotalStatus],[r.serviceMinor,r.serviceStatus],[r.totalMinor,r.totalStatus]] as const) {
+    if (amount !== null && !isMinor(amount)) throw new Error('Invalid receipt amount.');
+    if ((status === 'printed' || status === 'confirmed') !== (amount !== null)) throw new Error('Receipt amount and source status do not match.');
+  }
 }
 export function itemsOf(receipt: Receipt): Item[] {
   validateReceipt(receipt);
@@ -83,7 +88,9 @@ export function calculate(state: SplitState) {
   if (Object.values(state.allocation).filter(x => x.length > 1).length > 1) issues.push('Only one shared item is supported.');
   const r = state.receipt;
   const subtotal = r.rows.reduce((n, row) => n + (row.amountMinor ?? 0), 0);
-  if (r.subtotalMinor === null || r.serviceMinor === null || r.totalMinor === null) issues.push('Confirm the printed subtotal, service charge and total.');
+  if (r.subtotalMinor === null) issues.push(r.subtotalStatus === 'not_printed' ? 'Subtotal is not printed. Confirm the item total before finishing.' : 'The subtotal is unreadable. Say the amount or upload a clearer photo.');
+  if (r.serviceMinor === null) issues.push(r.serviceStatus === 'not_printed' ? 'Service charge is not printed. Confirm that it is zero before finishing.' : 'The service charge is unreadable. Say the amount or upload a clearer photo.');
+  if (r.totalMinor === null) issues.push(r.totalStatus === 'not_printed' ? 'Receipt total is not printed. Say the total before finishing.' : 'The receipt total is unreadable. Say the amount or upload a clearer photo.');
   if (!unreadable.length && r.subtotalMinor !== null && subtotal !== r.subtotalMinor) issues.push('The rows do not match the printed subtotal.');
   if (r.subtotalMinor !== null && r.serviceMinor !== null && r.totalMinor !== null && r.subtotalMinor + r.serviceMinor !== r.totalMinor) issues.push('The subtotal and service charge do not match the printed total.');
   if (!subtotal && (r.serviceMinor ?? 0) > 0) issues.push('A service charge needs a positive item subtotal.');

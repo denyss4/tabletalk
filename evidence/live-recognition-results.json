@@ -1,0 +1,1164 @@
+{
+  "speechMode": "browser",
+  "provider": "https://www.rsiai.net",
+  "testedAt": "2026-09-21T11:36:07.842Z",
+  "kind": "live API integration; microphone capture tested separately",
+  "results": [
+    {
+      "name": "custom receipt",
+      "status": 200,
+      "elapsedMs": 5416,
+      "receipt": {
+        "merchant": "RIVER CAFE",
+        "currency": "EUR",
+        "rows": [
+          {
+            "id": "r1",
+            "name": "Tea",
+            "quantity": 1,
+            "amountMinor": 325,
+            "uncertain": false
+          },
+          {
+            "id": "r2",
+            "name": "Soup",
+            "quantity": 1,
+            "amountMinor": 675,
+            "uncertain": false
+          },
+          {
+            "id": "r3",
+            "name": "Sandwich",
+            "quantity": 1,
+            "amountMinor": 950,
+            "uncertain": false
+          }
+        ],
+        "subtotalMinor": 1950,
+        "serviceMinor": 195,
+        "totalMinor": 2145,
+        "warnings": []
+      },
+      "operations": [
+        {
+          "id": "c3b6cc08-df58-4dbf-a279-3ec9b0ec2ef7",
+          "stage": "receipt",
+          "model": "gpt-5.6-sol",
+          "provider": "https://www.rsiai.net",
+          "latencyMs": 5368,
+          "status": "succeeded",
+          "costUSD": null,
+          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "usage": {
+            "attribution": {
+              "items": {
+                "msg_00762079c55b9097016ab116a6edc487d0ad3e19f0e68d3f42": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 13,
+                      "output_tokens": 0
+                    },
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 872,
+                      "output_tokens": 0
+                    }
+                  ],
+                  "input_tokens": 885,
+                  "output_tokens": 0
+                },
+                "msg_00762079c55b9097016ab116a7e7a087d0873b171d7221d2c4": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 2,
+                      "output_tokens": 98
+                    }
+                  ],
+                  "input_tokens": 2,
+                  "output_tokens": 98
+                }
+              },
+              "request_fields": {
+                "text.format": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 120,
+                  "output_tokens": 0
+                },
+                "instructions": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 226,
+                  "output_tokens": 0
+                }
+              }
+            },
+            "input_tokens": 1233,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 98,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 1331
+          },
+          "inputTokens": 1233,
+          "outputTokens": 98,
+          "cachedTokens": 0
+        }
+      ],
+      "matchesExpected": true
+    },
+    {
+      "name": "reference receipt",
+      "status": 200,
+      "elapsedMs": 7964,
+      "receipt": {
+        "merchant": "TABLE NINE",
+        "currency": "EUR",
+        "rows": [
+          {
+            "id": "r1",
+            "name": "Coffee",
+            "quantity": 1,
+            "amountMinor": 280,
+            "uncertain": false
+          },
+          {
+            "id": "r2",
+            "name": "Coffee",
+            "quantity": 1,
+            "amountMinor": 280,
+            "uncertain": false
+          },
+          {
+            "id": "r3",
+            "name": "Pasta",
+            "quantity": 1,
+            "amountMinor": 1240,
+            "uncertain": false
+          },
+          {
+            "id": "r4",
+            "name": "Burger",
+            "quantity": 1,
+            "amountMinor": 1160,
+            "uncertain": false
+          },
+          {
+            "id": "r5",
+            "name": "Salad",
+            "quantity": 1,
+            "amountMinor": 810,
+            "uncertain": false
+          },
+          {
+            "id": "r6",
+            "name": "Fries",
+            "quantity": 1,
+            "amountMinor": 570,
+            "uncertain": false
+          }
+        ],
+        "subtotalMinor": 4340,
+        "serviceMinor": 435,
+        "totalMinor": 4775,
+        "warnings": []
+      },
+      "operations": [
+        {
+          "id": "c1962954-0f51-4dea-a3fa-be61af64a7e6",
+          "stage": "receipt",
+          "model": "gpt-5.6-sol",
+          "provider": "https://www.rsiai.net",
+          "latencyMs": 7916,
+          "status": "succeeded",
+          "costUSD": null,
+          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "usage": {
+            "attribution": {
+              "items": {
+                "msg_022239791fb65f18016ab116abec2c87d0a5abd3e92efc1e80": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 13,
+                      "output_tokens": 0
+                    },
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 1845,
+                      "output_tokens": 0
+                    }
+                  ],
+                  "input_tokens": 1858,
+                  "output_tokens": 0
+                },
+                "msg_022239791fb65f18016ab116ae6de087d086be907854a2f1bf": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 2,
+                      "output_tokens": 155
+                    }
+                  ],
+                  "input_tokens": 2,
+                  "output_tokens": 155
+                }
+              },
+              "request_fields": {
+                "text.format": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 120,
+                  "output_tokens": 0
+                },
+                "instructions": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 226,
+                  "output_tokens": 0
+                }
+              }
+            },
+            "input_tokens": 2206,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 155,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 2361
+          },
+          "inputTokens": 2206,
+          "outputTokens": 155,
+          "cachedTokens": 0
+        }
+      ]
+    },
+    {
+      "name": "normal",
+      "status": 200,
+      "elapsedMs": 3550,
+      "intent": {
+        "assignments": [
+          {
+            "itemIds": [
+              "r1.1",
+              "r3.1",
+              "r6.1"
+            ],
+            "personIds": [
+              "p1"
+            ]
+          },
+          {
+            "itemIds": [
+              "r2.1",
+              "r4.1"
+            ],
+            "personIds": [
+              "p2"
+            ]
+          },
+          {
+            "itemIds": [
+              "r5.1"
+            ],
+            "personIds": [
+              "p3"
+            ]
+          }
+        ],
+        "question": null,
+        "candidateItemIds": [],
+        "candidatePersonIds": [],
+        "confirmation": null
+      },
+      "transcript": "Alex had the first coffee, pasta and fries. Sam had the second coffee and burger. Lee had the salad.",
+      "revision": 0,
+      "operations": [
+        {
+          "id": "0bdda642-8ae5-4e0d-9dcf-505ccb187fe6",
+          "stage": "intent",
+          "model": "gpt-5.6-sol",
+          "provider": "https://www.rsiai.net",
+          "latencyMs": 3488,
+          "status": "succeeded",
+          "costUSD": null,
+          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "usage": {
+            "attribution": {
+              "items": {
+                "msg_04c9dd6d367d0a92016ab116b27cb487d0a54ffc6a5e5b59ca": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 427,
+                      "output_tokens": 0
+                    }
+                  ],
+                  "input_tokens": 427,
+                  "output_tokens": 0
+                },
+                "msg_04c9dd6d367d0a92016ab116b378dc87d08946958dbc24d9bc": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 2,
+                      "output_tokens": 94
+                    }
+                  ],
+                  "input_tokens": 2,
+                  "output_tokens": 94
+                }
+              },
+              "request_fields": {
+                "text.format": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 172,
+                  "output_tokens": 0
+                },
+                "instructions": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 309,
+                  "output_tokens": 0
+                }
+              }
+            },
+            "input_tokens": 910,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 94,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 1004
+          },
+          "inputTokens": 910,
+          "outputTokens": 94,
+          "cachedTokens": 0
+        }
+      ],
+      "transcriptionSource": "supplied expected transcript; browser microphone recognition NOT tested",
+      "verification": {
+        "settled": true,
+        "people": [
+          {
+            "id": "p1",
+            "name": "Alex",
+            "subtotal": 2090,
+            "service": 210,
+            "total": 2300
+          },
+          {
+            "id": "p2",
+            "name": "Sam",
+            "subtotal": 1440,
+            "service": 144,
+            "total": 1584
+          },
+          {
+            "id": "p3",
+            "name": "Lee",
+            "subtotal": 810,
+            "service": 81,
+            "total": 891
+          }
+        ],
+        "assigned": 6,
+        "itemCount": 6,
+        "issues": [],
+        "subtotal": 4340,
+        "sum": 4775
+      },
+      "itemCount": 6,
+      "settled": true,
+      "matchesExpected": true
+    },
+    {
+      "name": "shared",
+      "status": 200,
+      "elapsedMs": 4168,
+      "intent": {
+        "assignments": [
+          {
+            "itemIds": [
+              "r1.1",
+              "r3.1"
+            ],
+            "personIds": [
+              "p1"
+            ]
+          },
+          {
+            "itemIds": [
+              "r2.1",
+              "r4.1"
+            ],
+            "personIds": [
+              "p2"
+            ]
+          },
+          {
+            "itemIds": [
+              "r5.1"
+            ],
+            "personIds": [
+              "p3"
+            ]
+          },
+          {
+            "itemIds": [
+              "r6.1"
+            ],
+            "personIds": [
+              "p1",
+              "p2",
+              "p3"
+            ]
+          }
+        ],
+        "question": null,
+        "candidateItemIds": [],
+        "candidatePersonIds": [],
+        "confirmation": null
+      },
+      "transcript": "Alex had the first coffee and pasta. Sam had the second coffee and burger. Lee had the salad. Split the fries equally between all three of us.",
+      "revision": 0,
+      "operations": [
+        {
+          "id": "af67b782-6f9b-4c64-abe0-4a73955a5263",
+          "stage": "intent",
+          "model": "gpt-5.6-sol",
+          "provider": "https://www.rsiai.net",
+          "latencyMs": 4101,
+          "status": "succeeded",
+          "costUSD": null,
+          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "usage": {
+            "attribution": {
+              "items": {
+                "msg_0d892f8f076d4cd2016ab116b6161087d08d1a8ceb8e7afcac": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 435,
+                      "output_tokens": 0
+                    }
+                  ],
+                  "input_tokens": 435,
+                  "output_tokens": 0
+                },
+                "msg_0d892f8f076d4cd2016ab116b74ed087d0910a0f4e10732b91": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 2,
+                      "output_tokens": 111
+                    }
+                  ],
+                  "input_tokens": 2,
+                  "output_tokens": 111
+                }
+              },
+              "request_fields": {
+                "text.format": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 172,
+                  "output_tokens": 0
+                },
+                "instructions": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 309,
+                  "output_tokens": 0
+                }
+              }
+            },
+            "input_tokens": 918,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 111,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 1029
+          },
+          "inputTokens": 918,
+          "outputTokens": 111,
+          "cachedTokens": 0
+        }
+      ],
+      "transcriptionSource": "supplied expected transcript; browser microphone recognition NOT tested",
+      "verification": {
+        "settled": true,
+        "people": [
+          {
+            "id": "p1",
+            "name": "Alex",
+            "subtotal": 1710,
+            "service": 172,
+            "total": 1882
+          },
+          {
+            "id": "p2",
+            "name": "Sam",
+            "subtotal": 1630,
+            "service": 163,
+            "total": 1793
+          },
+          {
+            "id": "p3",
+            "name": "Lee",
+            "subtotal": 1000,
+            "service": 100,
+            "total": 1100
+          }
+        ],
+        "assigned": 6,
+        "itemCount": 6,
+        "issues": [],
+        "subtotal": 4340,
+        "sum": 4775
+      },
+      "itemCount": 6,
+      "settled": true,
+      "matchesExpected": true
+    },
+    {
+      "name": "before-correction",
+      "status": 200,
+      "elapsedMs": 3782,
+      "intent": {
+        "assignments": [
+          {
+            "itemIds": [
+              "r1.1",
+              "r2.1",
+              "r3.1"
+            ],
+            "personIds": [
+              "p1"
+            ]
+          },
+          {
+            "itemIds": [
+              "r4.1"
+            ],
+            "personIds": [
+              "p2"
+            ]
+          },
+          {
+            "itemIds": [
+              "r5.1"
+            ],
+            "personIds": [
+              "p3"
+            ]
+          },
+          {
+            "itemIds": [
+              "r6.1"
+            ],
+            "personIds": [
+              "p1",
+              "p2",
+              "p3"
+            ]
+          }
+        ],
+        "question": null,
+        "candidateItemIds": [],
+        "candidatePersonIds": [],
+        "confirmation": null
+      },
+      "transcript": "Alex had both coffees and pasta. Sam had the burger. Lee had the salad. Share the fries equally between everyone.",
+      "revision": 0,
+      "operations": [
+        {
+          "id": "fdf6a4a0-5db6-4650-9557-aeea88675cd4",
+          "stage": "intent",
+          "model": "gpt-5.6-sol",
+          "provider": "https://www.rsiai.net",
+          "latencyMs": 3730,
+          "status": "succeeded",
+          "costUSD": null,
+          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "usage": {
+            "attribution": {
+              "items": {
+                "msg_0e2e9e37bfb5cbeb016ab116ba565c87d08b3b0f753ae3f9e6": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 428,
+                      "output_tokens": 0
+                    }
+                  ],
+                  "input_tokens": 428,
+                  "output_tokens": 0
+                },
+                "msg_0e2e9e37bfb5cbeb016ab116bb0e1487d08b5fed50c7d22df9": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 2,
+                      "output_tokens": 111
+                    }
+                  ],
+                  "input_tokens": 2,
+                  "output_tokens": 111
+                }
+              },
+              "request_fields": {
+                "text.format": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 172,
+                  "output_tokens": 0
+                },
+                "instructions": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 309,
+                  "output_tokens": 0
+                }
+              }
+            },
+            "input_tokens": 911,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 111,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 1022
+          },
+          "inputTokens": 911,
+          "outputTokens": 111,
+          "cachedTokens": 0
+        }
+      ],
+      "transcriptionSource": "supplied expected transcript; browser microphone recognition NOT tested",
+      "verification": {
+        "settled": true,
+        "people": [
+          {
+            "id": "p1",
+            "name": "Alex",
+            "subtotal": 1990,
+            "service": 200,
+            "total": 2190
+          },
+          {
+            "id": "p2",
+            "name": "Sam",
+            "subtotal": 1350,
+            "service": 135,
+            "total": 1485
+          },
+          {
+            "id": "p3",
+            "name": "Lee",
+            "subtotal": 1000,
+            "service": 100,
+            "total": 1100
+          }
+        ],
+        "assigned": 6,
+        "itemCount": 6,
+        "issues": [],
+        "subtotal": 4340,
+        "sum": 4775
+      },
+      "itemCount": 6,
+      "settled": true
+    },
+    {
+      "name": "correction",
+      "status": 200,
+      "elapsedMs": 3056,
+      "intent": {
+        "assignments": [
+          {
+            "itemIds": [
+              "r2.1"
+            ],
+            "personIds": [
+              "p2"
+            ]
+          }
+        ],
+        "question": null,
+        "candidateItemIds": [],
+        "candidatePersonIds": [],
+        "confirmation": null
+      },
+      "transcript": "Actually, the second coffee was Sam's.",
+      "revision": 1,
+      "operations": [
+        {
+          "id": "23b69380-352e-4272-937d-7f1eee3fd721",
+          "stage": "intent",
+          "model": "gpt-5.6-sol",
+          "provider": "https://www.rsiai.net",
+          "latencyMs": 3022,
+          "status": "succeeded",
+          "costUSD": null,
+          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "usage": {
+            "attribution": {
+              "items": {
+                "msg_08029ea82aebb93e016ab116be00e887d0905200ba59d2eea5": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 471,
+                      "output_tokens": 0
+                    }
+                  ],
+                  "input_tokens": 471,
+                  "output_tokens": 0
+                },
+                "msg_08029ea82aebb93e016ab116bf081087d0b120b73a5e7ff29a": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 2,
+                      "output_tokens": 47
+                    }
+                  ],
+                  "input_tokens": 2,
+                  "output_tokens": 47
+                }
+              },
+              "request_fields": {
+                "text.format": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 172,
+                  "output_tokens": 0
+                },
+                "instructions": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 309,
+                  "output_tokens": 0
+                }
+              }
+            },
+            "input_tokens": 954,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 47,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 1001
+          },
+          "inputTokens": 954,
+          "outputTokens": 47,
+          "cachedTokens": 0
+        }
+      ],
+      "transcriptionSource": "supplied expected transcript; browser microphone recognition NOT tested",
+      "verification": {
+        "settled": true,
+        "people": [
+          {
+            "id": "p1",
+            "name": "Alex",
+            "subtotal": 1710,
+            "service": 172,
+            "total": 1882
+          },
+          {
+            "id": "p2",
+            "name": "Sam",
+            "subtotal": 1630,
+            "service": 163,
+            "total": 1793
+          },
+          {
+            "id": "p3",
+            "name": "Lee",
+            "subtotal": 1000,
+            "service": 100,
+            "total": 1100
+          }
+        ],
+        "assigned": 6,
+        "itemCount": 6,
+        "issues": [],
+        "subtotal": 4340,
+        "sum": 4775
+      },
+      "itemCount": 6,
+      "settled": true,
+      "matchesExpected": true
+    },
+    {
+      "name": "ambiguous",
+      "status": 200,
+      "elapsedMs": 2709,
+      "intent": {
+        "assignments": [],
+        "question": "Which coffee did Sam have: the first or the second?",
+        "candidateItemIds": [
+          "r1.1",
+          "r2.1"
+        ],
+        "candidatePersonIds": [
+          "p2"
+        ],
+        "confirmation": null
+      },
+      "transcript": "Sam had a coffee.",
+      "revision": 0,
+      "operations": [
+        {
+          "id": "7ea1ac80-ca93-40f3-b762-1c8f78464483",
+          "stage": "intent",
+          "model": "gpt-5.6-sol",
+          "provider": "https://www.rsiai.net",
+          "latencyMs": 2597,
+          "status": "succeeded",
+          "costUSD": null,
+          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "usage": {
+            "attribution": {
+              "items": {
+                "msg_01f51c447028d981016ab116c11d8487d093ca1b6a729fb59e": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 409,
+                      "output_tokens": 0
+                    }
+                  ],
+                  "input_tokens": 409,
+                  "output_tokens": 0
+                },
+                "msg_01f51c447028d981016ab116c20b7c87d08433acb063d8fb25": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 2,
+                      "output_tokens": 54
+                    }
+                  ],
+                  "input_tokens": 2,
+                  "output_tokens": 54
+                }
+              },
+              "request_fields": {
+                "text.format": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 172,
+                  "output_tokens": 0
+                },
+                "instructions": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 309,
+                  "output_tokens": 0
+                }
+              }
+            },
+            "input_tokens": 892,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 54,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 946
+          },
+          "inputTokens": 892,
+          "outputTokens": 54,
+          "cachedTokens": 0
+        }
+      ],
+      "transcriptionSource": "supplied expected transcript; browser microphone recognition NOT tested",
+      "verification": {
+        "settled": false,
+        "people": [
+          {
+            "id": "p1",
+            "name": "Alex",
+            "subtotal": 0,
+            "service": 0,
+            "total": 0
+          },
+          {
+            "id": "p2",
+            "name": "Sam",
+            "subtotal": 0,
+            "service": 0,
+            "total": 0
+          },
+          {
+            "id": "p3",
+            "name": "Lee",
+            "subtotal": 0,
+            "service": 0,
+            "total": 0
+          }
+        ],
+        "assigned": 0,
+        "itemCount": 6,
+        "issues": [
+          "6 items still need an owner."
+        ],
+        "subtotal": 4340,
+        "sum": 0
+      },
+      "itemCount": 6,
+      "settled": false,
+      "matchesExpected": true
+    },
+    {
+      "name": "unreadable receipt",
+      "status": 200,
+      "elapsedMs": 8583,
+      "receipt": {
+        "merchant": "TABLE NINE",
+        "currency": "EUR",
+        "rows": [
+          {
+            "id": "r1",
+            "name": "Coffee",
+            "quantity": 1,
+            "amountMinor": 280,
+            "uncertain": false
+          },
+          {
+            "id": "r2",
+            "name": "Coffee",
+            "quantity": 1,
+            "amountMinor": 280,
+            "uncertain": false
+          },
+          {
+            "id": "r3",
+            "name": "Pasta",
+            "quantity": 1,
+            "amountMinor": null,
+            "uncertain": true
+          },
+          {
+            "id": "r4",
+            "name": "Burger",
+            "quantity": 1,
+            "amountMinor": 1160,
+            "uncertain": false
+          },
+          {
+            "id": "r5",
+            "name": "Salad",
+            "quantity": 1,
+            "amountMinor": 810,
+            "uncertain": false
+          },
+          {
+            "id": "r6",
+            "name": "Fries",
+            "quantity": 1,
+            "amountMinor": 570,
+            "uncertain": false
+          }
+        ],
+        "subtotalMinor": 4340,
+        "serviceMinor": 435,
+        "totalMinor": 4775,
+        "warnings": []
+      },
+      "operations": [
+        {
+          "id": "9c64a6aa-d5ea-4410-bd9a-ad91301e2fd0",
+          "stage": "receipt",
+          "model": "gpt-5.6-sol",
+          "provider": "https://www.rsiai.net",
+          "latencyMs": 8543,
+          "status": "succeeded",
+          "costUSD": null,
+          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "usage": {
+            "attribution": {
+              "items": {
+                "msg_05360a94b7673a21016ab116c5534087d0a47e30008cf718c4": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 13,
+                      "output_tokens": 0
+                    },
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 1845,
+                      "output_tokens": 0
+                    }
+                  ],
+                  "input_tokens": 1858,
+                  "output_tokens": 0
+                },
+                "rs_05360a94b7673a21016ab116c60f8487d0a15e89d0b2c38f99": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 2,
+                  "output_tokens": 102
+                },
+                "msg_05360a94b7673a21016ab116c980c087d0a79e944537cbcf86": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "content": [
+                    {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0,
+                      "input_tokens": 0,
+                      "output_tokens": 156
+                    }
+                  ],
+                  "input_tokens": 0,
+                  "output_tokens": 156
+                }
+              },
+              "request_fields": {
+                "text.format": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 120,
+                  "output_tokens": 0
+                },
+                "instructions": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 226,
+                  "output_tokens": 0
+                }
+              }
+            },
+            "input_tokens": 2206,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 258,
+            "output_tokens_details": {
+              "reasoning_tokens": 102
+            },
+            "total_tokens": 2464
+          },
+          "inputTokens": 2206,
+          "outputTokens": 258,
+          "cachedTokens": 0
+        }
+      ],
+      "verification": {
+        "settled": false,
+        "people": [
+          {
+            "id": "p1",
+            "name": "Alex",
+            "subtotal": 0,
+            "service": 0,
+            "total": 0
+          },
+          {
+            "id": "p2",
+            "name": "Sam",
+            "subtotal": 0,
+            "service": 0,
+            "total": 0
+          },
+          {
+            "id": "p3",
+            "name": "Lee",
+            "subtotal": 0,
+            "service": 0,
+            "total": 0
+          }
+        ],
+        "assigned": 0,
+        "itemCount": 6,
+        "issues": [
+          "Confirm the highlighted receipt rows.",
+          "6 items still need an owner."
+        ],
+        "subtotal": 3100,
+        "sum": 0
+      },
+      "hasUncertainty": true
+    }
+  ]
+}

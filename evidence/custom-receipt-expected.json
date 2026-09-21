@@ -1,0 +1,27 @@
+{
+  "recordedBeforeTesting": "2026-09-19T14:59:00.553Z",
+  "merchant": "RIVER CAFE",
+  "currency": "EUR",
+  "rows": [
+    {
+      "name": "Tea",
+      "amountMinor": 325
+    },
+    {
+      "name": "Soup",
+      "amountMinor": 675
+    },
+    {
+      "name": "Sandwich",
+      "amountMinor": 950
+    }
+  ],
+  "subtotalMinor": 1950,
+  "serviceMinor": 195,
+  "totalMinor": 2145,
+  "expectedTotals": [
+    358,
+    742,
+    1045
+  ]
+}

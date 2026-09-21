@@ -1,0 +1,18 @@
+{
+  "testedAt": "2026-09-19T14:57:27.063Z",
+  "durationMs": 7830,
+  "status": 429,
+  "error": "Recognition is busy or the account has reached its limit. Please try again.",
+  "code": "RECOGNITION_FAILED",
+  "operations": [
+    {
+      "id": "8b98d082-40c1-4b89-9219-aac38ed436d6",
+      "stage": "receipt",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "latencyMs": 7166,
+      "status": "failed",
+      "costUSD": null,
+      "costBasis": "Unknown until provider usage is received"
+    }
+  ]
+}

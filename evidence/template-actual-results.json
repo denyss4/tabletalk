@@ -1,0 +1,47 @@
+{
+  "testedAt": "2026-09-21T12:11:20.296Z",
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "productionBuild": "passed",
+    "mobileGallery": "390x844: photo preview and read controls usable",
+    "existingReceiptEntryPoint": "Templates button opens gallery"
+  },
+  "tests": [
+    {
+      "id": "pizzaferaj-city",
+      "method": "Clicked Read Pizzaferaj City receipt in browser; real configured recognition endpoint",
+      "actual": {
+        "rowAmountsMinor": [
+          900,
+          430,
+          1400,
+          1400,
+          1600
+        ],
+        "quantities": [
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "currency": "EUR",
+        "totalMinor": 5730,
+        "subtotalMinor": null,
+        "serviceMinor": null,
+        "itemCount": 6,
+        "settled": false
+      },
+      "result": "Matched expected extraction; missing fields remain unresolved"
+    },
+    {
+      "id": "vault-164",
+      "result": "Gallery and full photo preview checked; live recognition not tested in this change"
+    },
+    {
+      "id": "bang-ria-grill",
+      "result": "Gallery entry checked; live recognition not tested in this change"
+    }
+  ]
+}

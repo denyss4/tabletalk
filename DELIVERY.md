@@ -2,14 +2,14 @@
 
 ## Current status
 
-The deterministic product flow is implemented and verified locally. Live AI recognition, final cost and latency measurements, public repository access, hosted secret configuration, deployment verification, and the walkthrough video are still pending.
+The deterministic product flow is implemented and verified locally. Live image recognition and transcript interpretation now pass through RSI AI. Physical microphone transcription, full-dialogue timing, provider pricing, public repository access, deployment verification, and the walkthrough video remain pending.
 
 Do not submit this document as complete until every item marked **pending** has an actual measured result.
 
 ## Reproducible inputs
 
-- Readable receipt: `public/samples/receipt.png`
-- Partly unreadable receipt: `public/samples/receipt-unreadable.png`
+- Readable receipt: `public/samples/receipt.jpg`
+- Partly unreadable receipt: `public/samples/receipt-unreadable.jpg`
 - Voice recordings and exact scripts: `public/samples/*.wav` and `public/samples/voices.json`
 - Expected outcomes recorded before testing: `evidence/expected-results.json`
 - Deterministic actual results: `evidence/core-results.json`
@@ -36,7 +36,7 @@ Do not submit this document as complete until every item marked **pending** has 
 
 ## What failed or remains unverified
 
-- No `OPENAI_API_KEY` is configured, so the current run has no genuine vision or transcription results and no meaningful provider latency or cost data.
+- RSI AI is configured at https://www.rsiai.net/v1 with model gpt-5.6-sol. Live photo extraction and supplied-transcript interpretation pass; results are in evidence/live-recognition-results.json. This provider has no channel for the tested audio model, so browser SpeechRecognition is used for live speech. Physical microphone transcription and intermediary pricing remain unverified.
 - The first long-running development preview loaded stale optimized React bundles after dependency installation. A clean restart fixed it; the subsequent browser flow passed without console errors.
 - The standard Sites build wrapper could not find npm through the Windows shim in this environment. Running the starter's underlying production build directly succeeded.
 - Focused time was not tracked accurately. Calendar timestamps include inactive time and must not be reported as focused work.
@@ -71,3 +71,19 @@ Hosting cost must be listed separately using the actual selected hosting plan. F
 ## Next product improvements
 
 The first improvement would be better recovery for difficult receipts: crop and rotate assistance plus targeted rereading of a single row. Next would be tests on varied receipt typography and accents, followed by support for more than one shared item and unequal shares. Payments remain outside scope.
+
+## RSI AI integration run
+
+All requests below reached the real provider. Command requests used supplied test transcripts, not microphone recordings.
+
+| Scenario | Actual result | Request duration |
+| --- | --- | --- |
+| Independent RIVER CAFE photo | 3 rows; 19.50 subtotal + 1.95 service = 21.45 EUR | 5.416 s |
+| Reference photo | All six prices and 47.75 EUR total match ground truth | 7.964 s |
+| Normal transcript | 23.00 / 15.84 / 8.91 EUR | 3.550 s |
+| Shared transcript | 18.82 / 17.93 / 11.00 EUR | 4.168 s |
+| Correction transcript | Second coffee reassigned; six items preserved | 3.056 s |
+| Ambiguous transcript | Question asked; no silent allocation | 2.709 s |
+| Unreadable photo | Pasta price null; settlement blocked | 8.583 s |
+
+Durations are API request times, not complete voice dialogue times. Token usage is saved; full variable cost is unknown until RSI AI pricing and any browser speech fees are confirmed. No direct OpenAI rate is substituted for RSI AI charges.

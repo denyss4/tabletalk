@@ -6,13 +6,13 @@ This repository was created for the supplied AI-First Product Builder assignment
 
 ## Run locally
 
-Requirements: Node.js 22.13 or newer and an OpenAI API key.
+Requirements: Node.js 22.13 or newer and a key for the configured OpenAI-compatible provider.
 
 1. Copy `.env.example` to `.env` and set `OPENAI_API_KEY`. Keep it server-side; never use a `NEXT_PUBLIC_` name.
 2. Install dependencies with `npm ci`.
 3. Start the app with `npm run dev` and open `http://localhost:5173`.
 
-The app remains usable without a key through the clearly labelled **allocation example**. Photo and voice recognition remain disabled in that mode, and example data is never presented as a recognition result.
+Custom receipt uploads are always available. The selected image is kept if recognition fails; use **Retry recognition** after resolving the reported error. **Check connection** refreshes configuration without discarding the photo. A key must belong to a project with available API credit; `INSUFFICIENT_QUOTA` blocks both photo extraction and speech transcription. The labelled allocation example remains optional and is never presented as recognition evidence.
 
 Run the checks with:
 
@@ -26,7 +26,7 @@ npm run build
 
 1. Add a clear JPG, PNG, or WebP receipt photo.
 2. Check the recognized rows against the original image.
-3. Edit the three names and record or upload an English voice instruction.
+3. Edit the three names, choose **Start voice command**, allow microphone access, speak, then choose **Stop recording**. Alternatively upload an English voice recording.
 4. Answer a focused clarification when an item or amount is ambiguous.
 5. Review each row and the final totals. Export the session evidence when the split is settled.
 
@@ -70,8 +70,8 @@ The main modules are:
 
 ## AI tools, models and reused components
 
-- Receipt vision and intent mapping: `gpt-4.1-mini-2025-04-14` through the Responses API with strict structured output.
-- Speech-to-text: `gpt-4o-mini-transcribe` through the transcription API.
+- Current receipt vision and intent mapping: `gpt-5.6-sol` through RSI AI at `https://www.rsiai.net/v1/responses`, with strict structured output and local validation. The model and base URL are server configuration.
+- Current speech-to-text: browser SpeechRecognition; final transcripts go to RSI AI for intent mapping. RSI AI has no channel for the tested transcription model. Recording upload is unavailable in browser mode. Direct OpenAI mode can use `gpt-4o-mini-transcribe`.
 - Generated test receipt photos: OpenAI image generation. The photos are fictional and shareable.
 - Synthetic test speech: Microsoft Zira Desktop through Windows System.Speech. The manifest records every utterance and identifies the recordings as synthetic.
 - UI foundation: the supplied Vinext/React starter, Tailwind CSS, Radix-based components, Lucide icons, and Zod.
@@ -92,7 +92,7 @@ Ground truth was saved in `evidence/expected-results.json` before the determinis
 
 Fifteen deterministic and intent tests pass. The browser check covers allocation, exact totals, correction, hiding unresolved totals, undo, renaming people, and a 390 px mobile viewport with no horizontal overflow. The production build succeeds.
 
-Live image and voice recognition have not yet been run because no API key is configured in this workspace. The exported results explicitly say `liveRecognitionTested: false`; prepared fixtures are never counted as live recognition evidence.
+Live RSI AI image extraction passed for both reference and independent custom receipts. Normal, shared, correction, and ambiguous commands passed using supplied test transcripts. The unreadable price remained null. See evidence/live-recognition-results.json. These transcript tests do not verify microphone transcription.
 
 ## Measurement and cost
 
@@ -117,3 +117,29 @@ No live provider calls have been measured yet, so current actual AI spend is $0.
 - Replace the current wall-clock evidence with an honest focused-work time log. Repository timestamps span 18–19 September and include inactive time, so they are not presented as focused hours.
 
 See [DELIVERY.md](./DELIVERY.md) for the submission checklist and current expected/actual report.
+
+## Custom receipt and voice verification
+
+Run `node scripts/verify-recognition.mjs` while the server is running to call the real photo and voice routes (provider charges apply). It records results in `evidence/live-recognition-results.json`, including failures and usage. The independent input is `public/samples/custom-receipt.png`; expected amounts were recorded in `evidence/custom-receipt-expected.json` before testing.
+
+The current run passed live receipt extraction and interpretation of supplied transcripts via RSI AI. Physical microphone transcription remains unverified. Microphone use requires localhost or HTTPS, browser speech support, and permission. Browser speech may send audio to the browser vendor. The API status checks configuration presence, not account billing or model access.
+
+API formats follow the official [image input guide](https://developers.openai.com/api/docs/guides/images-vision) and [file transcription guide](https://developers.openai.com/api/docs/guides/speech-to-text).
+
+## Provider configuration
+
+For RSI AI, keep the key server-side in the ignored .env file and set:
+
+```text
+OPENAI_BASE_URL=https://www.rsiai.net/v1
+OPENAI_MODEL=gpt-5.6-sol
+SPEECH_MODE=browser
+```
+
+Browser speech submits final recognized words only; partial or cancelled speech never changes allocations. On browsers without SpeechRecognition, the app reports the limitation and the row controls remain usable. Recorded audio files are not interpreted in browser mode. API keys are never sent to the browser, and provider redirects are not followed.
+
+RSI AI fees and browser speech costs are unverified. They are exported as null/unknown with provider identity and token usage, never as zero or as direct OpenAI pricing. The older OpenAI price assumptions above apply only when using the original direct OpenAI models.
+
+## Real receipt templates
+
+Choose **Browse receipt templates** in the empty state, or **Templates** beside an existing receipt. The three user-supplied photos have full previews and run through the same live recognition pipeline as uploads. They include unsupported currency/tax layouts and missing service details; they are not prefilled complete-split demos. See [template provenance and limitations](public/samples/templates/README.md), [expected results](evidence/template-expected-results.json), and [actual checks](evidence/template-actual-results.json).

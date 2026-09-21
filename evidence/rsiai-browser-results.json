@@ -1,0 +1,22 @@
+{
+  "testedAt": "2026-09-21T11:42:08.989Z",
+  "provider": "https://www.rsiai.net/v1",
+  "model": "gpt-5.6-sol",
+  "customUpload": "real browser upload to live provider; three rows recognized",
+  "receiptTotalMinor": 2145,
+  "actualTotalsMinor": [
+    358,
+    742,
+    1045
+  ],
+  "settled": true,
+  "microphoneTranscription": "not tested with spoken audio",
+  "speechMode": "browser",
+  "recordingUpload": "unsupported by provider",
+  "pricing": "unverified; not reported as zero",
+  "unitTests": 19,
+  "typecheck": "pass",
+  "lint": "pass",
+  "productionBuild": "pass",
+  "clientSecretOccurrences": 0
+}

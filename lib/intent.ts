@@ -32,7 +32,7 @@ export function confirmReceipt(state:SplitState,confirmation:Confirmation):Split
   if(c.amountMinor!==null)row.amountMinor=c.amountMinor;
   if(row.amountMinor===null)throw new Error('Read the amount aloud before confirming.');
   row.uncertain=false;
- }else{if(c.amountMinor===null)throw new Error('Read the amount aloud before confirming.');next.receipt[c.field]=c.amountMinor;}
+ }else{if(c.amountMinor===null)throw new Error('Read the amount aloud before confirming.');next.receipt[c.field]=c.amountMinor;const statusField=c.field.replace('Minor','Status') as 'subtotalStatus'|'serviceStatus'|'totalStatus';next.receipt[statusField]='confirmed';if(c.field==='serviceMinor')next.receipt.warnings=next.receipt.warnings.filter(w=>w.toLowerCase()!=='no service charge is explicitly printed.');}
  next.revision++;return next;
 }
 

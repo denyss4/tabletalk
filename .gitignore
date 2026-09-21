@@ -43,6 +43,8 @@ next-env.d.ts
 /.sites-runtime/
 /.agents/
 /.codex/
+/.claude/
+/.impeccable/
 /outputs/
 /work/
 !.env.example

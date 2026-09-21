@@ -8,5 +8,5 @@ export const sampleReceipt: Receipt = {
     { id: 'r4', name: 'Burger', quantity: 1, amountMinor: 1160, uncertain: false },
     { id: 'r5', name: 'Salad', quantity: 1, amountMinor: 810, uncertain: false },
     { id: 'r6', name: 'Fries', quantity: 1, amountMinor: 570, uncertain: false },
-  ], subtotalMinor: 4340, serviceMinor: 435, totalMinor: 4775, warnings: [],
+  ], subtotalMinor: 4340, subtotalStatus: 'printed', serviceMinor: 435, serviceStatus: 'printed', totalMinor: 4775, totalStatus: 'printed', warnings: [],
 };
