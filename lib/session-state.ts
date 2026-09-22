@@ -27,6 +27,22 @@ export function renameSplitPeople(
   };
 }
 
+export function renameReceiptMerchant(
+  state: SplitState,
+  merchant: string,
+): SplitState {
+  const clean = merchant.trim();
+  if (!clean || clean.length > 80) {
+    throw new Error("Enter a restaurant name up to 80 characters.");
+  }
+
+  return {
+    ...state,
+    receipt: { ...state.receipt, merchant: clean },
+    revision: state.revision + 1,
+  };
+}
+
 export function restoreSplitSnapshot(
   current: SplitState,
   snapshot: SplitState,

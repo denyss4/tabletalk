@@ -17,6 +17,7 @@ import {
   Info,
   AlertCircle,
   ChevronRight,
+  Pencil,
 } from "lucide-react";
 import {
   Dialog,
@@ -33,10 +34,12 @@ import { ReceiptVerification } from "@/components/receipt-verification";
 export default function Home() {
   const app = useTabletalk();
   const [modal, setModal] = useState<
-    "names" | "sample" | "photo" | "share" | null
+    "names" | "merchant" | "sample" | "photo" | "share" | null
   >(null);
   const [names, setNames] = useState(app.people.map((p) => p.name));
   const [nameError, setNameError] = useState("");
+  const [merchantName, setMerchantName] = useState("");
+  const [merchantError, setMerchantError] = useState("");
   const [shareItem, setShareItem] = useState("");
   const [sharers, setSharers] = useState<string[]>([]);
   const photoInput = useRef<HTMLInputElement>(null);
@@ -206,7 +209,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      {app.error && (
+      {app.error && app.state && (
         <div className="error" role="alert">
           <AlertCircle size={18} />
           <span>{app.error}</span>
@@ -279,6 +282,12 @@ export default function Home() {
                   )}
                 </span>
               )}
+              {app.error && (
+                <div className="error upload-error" role="alert">
+                  <AlertCircle size={18} />
+                  <span>{app.error}</span>
+                </div>
+              )}
               <h3>
                 {app.busy
                   ? "Reading your receipt..."
@@ -337,7 +346,24 @@ export default function Home() {
                       ? "ALLOCATION EXAMPLE · PREFILLED"
                       : "RECOGNIZED FROM YOUR PHOTO"}
                   </p>
-                  <h3>{app.state.receipt.merchant || "Your restaurant"}</h3>
+                  <div className="merchant-title-row">
+                    <h3>{app.state.receipt.merchant || "Your restaurant"}</h3>
+                    <button
+                      className="merchant-edit"
+                      disabled={locked}
+                      aria-label="Edit restaurant name"
+                      onClick={() => {
+                        setMerchantName(
+                          app.state?.receipt.merchant || "Your restaurant",
+                        );
+                        setMerchantError("");
+                        setModal("merchant");
+                      }}
+                    >
+                      <Pencil size={14} />
+                      Edit
+                    </button>
+                  </div>
                 </div>
                 <button
                   className="photo-thumbnail"
@@ -573,6 +599,20 @@ export default function Home() {
                       ? "Add a receipt to begin"
                       : "Start voice command")}
             </button>
+            {app.recording && (
+              <div className="voice-recording-actions">
+                <button type="button" onClick={app.cancelRecording}>
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void app.repeatRecording()}
+                >
+                  <RotateCcw size={16} />
+                  Repeat
+                </button>
+              </div>
+            )}
             {app.state && (
               <div className="voice-links">
                 <button
@@ -839,21 +879,76 @@ export default function Home() {
           <DialogTitle>
             {modal === "names"
               ? "Who’s at the table?"
-              : modal === "share"
-                ? "Share this item"
-                : modal === "photo"
-                  ? "Original receipt"
-                  : "Receipt templates & samples"}
+              : modal === "merchant"
+                ? "Restaurant name"
+                : modal === "share"
+                  ? "Share this item"
+                  : modal === "photo"
+                    ? "Original receipt"
+                    : "Receipt templates & samples"}
           </DialogTitle>
           <DialogDescription>
             {modal === "names"
               ? "Use these names when you speak. You can change them any time."
-              : modal === "share"
-                ? "Choose who shared it. We’ll divide the price equally."
-                : modal === "photo"
-                  ? "Check the recognized rows against the photo."
-                  : "Read a supplied photo, or explore the fictional test receipt and voice recordings."}
+              : modal === "merchant"
+                ? "Correct the recognized restaurant name without changing any receipt rows."
+                : modal === "share"
+                  ? "Choose who shared it. We’ll divide the price equally."
+                  : modal === "photo"
+                    ? "Check the recognized rows against the photo."
+                    : "Read a supplied photo, or explore the fictional test receipt and voice recordings."}
           </DialogDescription>
+          {modal === "merchant" && (
+            <form
+              className="merchant-form"
+              noValidate
+              onSubmit={(event) => {
+                event.preventDefault();
+                try {
+                  app.renameMerchant(merchantName);
+                  setMerchantError("");
+                  setModal(null);
+                } catch (error) {
+                  setMerchantError(
+                    error instanceof Error
+                      ? error.message
+                      : "Please check the restaurant name.",
+                  );
+                }
+              }}
+            >
+              <label htmlFor="merchant-name">Restaurant name</label>
+              <input
+                id="merchant-name"
+                autoFocus
+                value={merchantName}
+                maxLength={80}
+                aria-invalid={merchantError ? true : undefined}
+                aria-describedby={merchantError ? "merchant-error" : undefined}
+                onChange={(event) => {
+                  setMerchantError("");
+                  setMerchantName(event.target.value);
+                }}
+              />
+              {merchantError && (
+                <p id="merchant-error" className="error" role="alert">
+                  {merchantError}
+                </p>
+              )}
+              <div className="dialog-actions">
+                <button
+                  className="secondary-button"
+                  type="button"
+                  onClick={() => setModal(null)}
+                >
+                  Cancel
+                </button>
+                <button className="primary" type="submit">
+                  Save restaurant
+                </button>
+              </div>
+            </form>
+          )}
           {modal === "names" && (
             <form
               noValidate

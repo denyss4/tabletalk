@@ -8,6 +8,23 @@ const browser = await chromium.launch({
 const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
+await page.addInitScript(() => {
+  class MockSpeechRecognition {
+    lang = "";
+    continuous = false;
+    interimResults = false;
+    onresult = null;
+    onerror = null;
+    onend = null;
+    start() {}
+    stop() {
+      this.onend?.();
+    }
+    abort() {}
+  }
+  window.SpeechRecognition = MockSpeechRecognition;
+  window.webkitSpeechRecognition = MockSpeechRecognition;
+});
 await page.goto("http://localhost:5173/", {
   waitUntil: "domcontentloaded",
   timeout: 60000,
@@ -21,6 +38,19 @@ const allocationOnly = page
 await allocationOnly.waitFor({ timeout: 10000 });
 await allocationOnly.click();
 await page.locator(".receipt-row").first().waitFor();
+await page.getByRole("button", { name: "Edit restaurant name" }).click();
+await page
+  .getByRole("textbox", { name: "Restaurant name" })
+  .fill("The Quiet Ledger");
+await page.getByRole("button", { name: "Save restaurant" }).click();
+await page.getByRole("heading", { name: "The Quiet Ledger" }).waitFor();
+await page.getByRole("button", { name: "Undo", exact: true }).click();
+await page.getByRole("heading", { name: "Table Nine" }).waitFor();
+await page.getByRole("button", { name: "Start voice command" }).click();
+await page.getByRole("button", { name: "Repeat", exact: true }).click();
+await page.getByRole("button", { name: "Repeat", exact: true }).waitFor();
+await page.getByRole("button", { name: "Cancel", exact: true }).click();
+await page.getByRole("button", { name: "Start voice command" }).waitFor();
 const rows = page.locator(".receipt-row");
 for (const [i, name] of [
   [0, "Alex"],
@@ -92,6 +122,28 @@ const undersizedButtons = await page
       })),
   );
 assert.deepEqual(undersizedButtons, []);
+const errorPage = await browser.newPage({
+  viewport: { width: 1224, height: 900 },
+});
+await errorPage.route("**/api/receipt", (route) =>
+  route.fulfill({
+    status: 422,
+    contentType: "application/json",
+    body: JSON.stringify({
+      error: "This prototype supports EUR receipts. Please use a EUR receipt.",
+    }),
+  }),
+);
+await errorPage.goto("http://localhost:5173/", {
+  waitUntil: "domcontentloaded",
+});
+await errorPage
+  .locator('input[type="file"][accept^="image"]')
+  .setInputFiles("public/samples/receipt.jpg");
+await errorPage.locator(".upload-zone .error").waitFor();
+assert.equal(await errorPage.locator(".upload-zone .error").count(), 1);
+assert.equal(await errorPage.locator(".receipt-preview").count(), 1);
+await errorPage.close();
 assert.deepEqual(errors, []);
 writeFileSync(
   "evidence/browser-results.json",
@@ -107,6 +159,9 @@ writeFileSync(
         "undo",
         "mobile no overflow",
         "rename then undo restores names",
+        "restaurant rename then undo preserves receipt state",
+        "voice repeat and cancel controls",
+        "upload recognition error appears below the receipt preview",
         "visible button touch targets are at least 44px",
       ],
       consoleErrors: errors,
@@ -116,6 +171,6 @@ writeFileSync(
   ),
 );
 console.log(
-  "PASS: allocation, correction, unresolved-state gate, undo, mobile, names, touch targets.",
+  "PASS: allocation, correction, unresolved-state gate, undo, names, merchant edit, voice controls, error placement, mobile, touch targets.",
 );
 await browser.close();

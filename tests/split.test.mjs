@@ -11,6 +11,7 @@ import {
 } from "../lib/split.ts";
 import { sampleReceipt } from "../lib/sample.ts";
 import {
+  renameReceiptMerchant,
   renameSplitPeople,
   restoreSplitSnapshot,
 } from "../lib/session-state.ts";
@@ -179,6 +180,15 @@ test("rename and undo restore one consistent set of people", () => {
     PEOPLE.map((person) => person.name),
   );
   assert.equal(restored.revision, renamed.revision + 1);
+});
+test("restaurant name correction preserves receipt rows and allocations", () => {
+  const allocated = applyAssignments(fresh(), shared);
+  const renamed = renameReceiptMerchant(allocated, "  The Quiet Ledger  ");
+  assert.equal(renamed.receipt.merchant, "The Quiet Ledger");
+  assert.deepEqual(renamed.receipt.rows, allocated.receipt.rows);
+  assert.deepEqual(renamed.allocation, allocated.allocation);
+  assert.equal(renamed.revision, allocated.revision + 1);
+  assert.throws(() => renameReceiptMerchant(allocated, "   "));
 });
 test("integer allocation conserves every cent across many amounts", () => {
   for (let total = 0; total < 1000; total++) {

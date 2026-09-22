@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-09-22T07:51:22.878Z",
+  "runAt": "2026-09-22T08:25:39.704Z",
   "liveRecognitionTested": false,
   "checks": [
     "sample allocation",
@@ -9,6 +9,9 @@
     "undo",
     "mobile no overflow",
     "rename then undo restores names",
+    "restaurant rename then undo preserves receipt state",
+    "voice repeat and cancel controls",
+    "upload recognition error appears below the receipt preview",
     "visible button touch targets are at least 44px"
   ],
   "consoleErrors": []

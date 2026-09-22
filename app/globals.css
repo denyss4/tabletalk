@@ -1,4 +1,4 @@
-﻿@import "tailwindcss" source(none);
+@import "tailwindcss" source(none);
 @import "tw-animate-css";
 @import "../vendor/shadcn-tailwind-4.13.0.css";
 @source "./page.tsx";
@@ -1454,4 +1454,98 @@ footer summary {
   font-size: 12px;
   color: var(--muted-foreground);
   font-variant-numeric: tabular-nums;
+}
+
+.upload-error {
+  width: min(100%, 520px);
+  margin: 0;
+  text-align: left;
+}
+.merchant-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.merchant-title-row h3 {
+  margin: 0;
+}
+.merchant-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 8px;
+  border: 0;
+  background: transparent;
+  color: #356551;
+  font-size: 13px;
+  font-weight: 600;
+}
+.merchant-edit:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.voice-recording-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+.voice-recording-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #ffffff40;
+  border-radius: 8px;
+  background: transparent;
+  color: #f4faf7;
+  font-weight: 600;
+}
+.voice-recording-actions button:hover {
+  background: #ffffff12;
+}
+.merchant-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.merchant-form label {
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 600;
+}
+.merchant-form input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #d5e0dc;
+  border-radius: 7px;
+  background: #fff;
+  color: var(--foreground);
+  font-size: 16px;
+}
+.merchant-form input[aria-invalid="true"] {
+  border-color: #b44f3e;
+  outline-color: #b44f3e;
+}
+.merchant-form .error {
+  margin: 2px 0 0;
+}
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+@media (max-width: 480px) {
+  .dialog-actions {
+    flex-direction: column-reverse;
+  }
+  .dialog-actions > button {
+    width: 100%;
+  }
 }

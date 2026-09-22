@@ -16,7 +16,11 @@ import { confirmReceipt } from "./intent";
 import type { Confirmation, Intent } from "./schemas";
 import type { Operation } from "./ai";
 import { listenForSpeech, speechConstructor } from "./browser-speech";
-import { renamePeople, restoreSplitSnapshot } from "./session-state";
+import {
+  renamePeople,
+  renameReceiptMerchant,
+  restoreSplitSnapshot,
+} from "./session-state";
 export type Activity = {
   at: string;
   text: string;
@@ -54,6 +58,11 @@ export function useTabletalk() {
   const [operations, setOperations] = useState<Operation[]>([]);
   const [activity, setActivity] = useState<Activity[]>([]);
   const [recording, setRecording] = useState(false);
+  const recordingRef = useRef(false);
+  const updateRecording = useCallback((value: boolean) => {
+    recordingRef.current = value;
+    setRecording(value);
+  }, []);
   const recorder = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const recordingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -431,6 +440,11 @@ export function useTabletalk() {
         revision: stateRef.current.revision + 1,
       });
   }
+  function renameMerchant(name: string) {
+    if (!stateRef.current) return;
+    commit(renameReceiptMerchant(stateRef.current, name));
+    note(`Renamed the restaurant to ${name.trim()}.`, "change");
+  }
   async function sendAudio(blob: Blob, name: string, duration: number) {
     const snapshot = stateRef.current;
     if (!snapshot) return;
@@ -499,7 +513,7 @@ export function useTabletalk() {
     const started = Date.now();
     setError("");
     setSpeechPreview("");
-    setRecording(true);
+    updateRecording(true);
     const log = (status: string) =>
       setOperations((o) => [
         ...o,
@@ -519,7 +533,7 @@ export function useTabletalk() {
     const finish = () => {
       if (recordingTimer.current) clearTimeout(recordingTimer.current);
       speech.current = null;
-      setRecording(false);
+      updateRecording(false);
     };
     try {
       speech.current = listenForSpeech(new Constructor(), {
@@ -545,12 +559,36 @@ export function useTabletalk() {
       );
     }
   }
+  function cancelRecording() {
+    if (recordingTimer.current) clearTimeout(recordingTimer.current);
+    recordingTimer.current = null;
+    const currentSpeech = speech.current;
+    speech.current = null;
+    currentSpeech?.abort();
+    const currentRecorder = recorder.current;
+    recorder.current = null;
+    if (currentRecorder?.state === "recording") {
+      currentRecorder.onstop = null;
+      currentRecorder.stop();
+    }
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+    updateRecording(false);
+    setSpeechPreview("");
+  }
+  async function repeatRecording() {
+    cancelRecording();
+    await new Promise<void>((resolve) => setTimeout(resolve, 0));
+    if (busyRef.current || !stateRef.current || micRequest.current) return;
+    if (speechMode === "browser") startBrowserRecording();
+    else await toggleRecording();
+  }
   async function toggleRecording() {
-    if (recording && speech.current) {
+    if (recordingRef.current && speech.current) {
       speech.current.stop();
       return;
     }
-    if (recording) {
+    if (recordingRef.current) {
       if (recordingTimer.current) clearTimeout(recordingTimer.current);
       recorder.current?.stop();
       return;
@@ -602,7 +640,7 @@ export function useTabletalk() {
         if (recordingTimer.current) clearTimeout(recordingTimer.current);
         stream.getTracks().forEach((t) => t.stop());
         streamRef.current = null;
-        setRecording(false);
+        updateRecording(false);
         const duration = (Date.now() - start) / 1000;
         const type = rec.mimeType || "audio/webm";
         const blob = new Blob(chunks, { type });
@@ -623,11 +661,11 @@ export function useTabletalk() {
         if (recordingTimer.current) clearTimeout(recordingTimer.current);
         stream.getTracks().forEach((t) => t.stop());
         streamRef.current = null;
-        setRecording(false);
+        updateRecording(false);
         setError("Recording failed. Try uploading an audio file.");
       };
       rec.start();
-      setRecording(true);
+      updateRecording(true);
       recordingTimer.current = setTimeout(() => {
         if (rec.state === "recording") rec.stop();
       }, 60_000);
@@ -795,7 +833,10 @@ export function useTabletalk() {
     confirmReceiptAmount,
     undo,
     rename,
+    renameMerchant,
     toggleRecording,
+    cancelRecording,
+    repeatRecording,
     uploadAudio,
     useSampleAudio,
     exportEvidence,
