@@ -2,12 +2,14 @@
 import assert from "node:assert/strict";
 import { readFileSync, writeFileSync } from "node:fs";
 import {
+  MAX_RECEIPT_ITEMS,
   PEOPLE,
   apportion,
   applyAssignments,
   calculate,
   itemsOf,
   receiptAmountLabel,
+  validateReceipt,
 } from "../lib/split.ts";
 import { sampleReceipt } from "../lib/sample.ts";
 import {
@@ -166,6 +168,14 @@ test("more than one shared item is rejected atomically", () => {
     applyAssignments(state, [{ itemIds: ["r1.1"], personIds: ["p1", "p2"] }]),
   );
   assert.equal(calculate(state).settled, true);
+});
+test("receipt quantities cannot expand beyond the ten-item scope", () => {
+  const receipt = structuredClone(sampleReceipt);
+  receipt.rows[0].quantity = MAX_RECEIPT_ITEMS - receipt.rows.length + 2;
+  assert.throws(
+    () => validateReceipt(receipt),
+    /contains 11 individual items across 6 printed rows/,
+  );
 });
 test("rename and undo restore one consistent set of people", () => {
   const original = fresh();

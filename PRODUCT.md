@@ -33,7 +33,7 @@ AI output is treated as a constrained proposal rather than authoritative applica
 ## Capabilities and Constraints
 
 - English only.
-- One receipt with no more than ten printed rows.
+- One receipt with no more than ten printed rows and ten expanded individual items.
 - Exactly one currency; the current prototype uses EUR.
 - Up to three people.
 - At most one shared item.
@@ -62,8 +62,8 @@ AI output is treated as a constrained proposal rather than authoritative applica
 - Ground-truth outcomes recorded before testing: `evidence/expected-results.json`.
 - Deterministic test results: `evidence/core-results.json`.
 - Browser-flow results and responsive screenshots: `evidence/browser-results.json`, `evidence/balanced-desktop.png`, and `evidence/balanced-mobile.png`.
-- Twenty-four arithmetic, state, intent, and browser-speech tests pass, along with type checking, linting, the production build, and the browser flow described in `README.md` and `DELIVERY.md`.
-- Live image and supplied-transcript results, provider latency, benchmark cost estimates, dialogue component timings, and a 17-second walkthrough are recorded in `evidence/`. Physical microphone recognition on the final HTTPS deployment remains a required manual check and must not be implied as completed.
+- Twenty-six arithmetic, state, intent, and browser-speech tests pass, along with type checking, linting, the production build, and the browser flow described in `README.md` and `DELIVERY.md`.
+- Live image, ten-item boundary, supplied-transcript results, provider latency, benchmark cost estimates, dialogue component timings, and a 17-second walkthrough are recorded in `evidence/`. Physical microphone recognition on the final HTTPS deployment remains a required manual check and must not be implied as completed.
 - No customer testimonials, commercial adoption evidence, or payment capability is available.
 
 ## Product Principles

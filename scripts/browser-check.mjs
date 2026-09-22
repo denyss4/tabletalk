@@ -32,11 +32,25 @@ await page.goto("http://localhost:5173/", {
 await page
   .getByRole("button", { name: "Browse receipt templates", exact: true })
   .click();
+assert.equal(
+  await page
+    .getByRole("heading", { name: "Bella Mbriana", exact: true })
+    .count(),
+  1,
+);
+assert.equal(
+  await page
+    .getByRole("heading", { name: "Pochi Panini e Poi", exact: true })
+    .count(),
+  0,
+);
 const allocationOnly = page
   .getByRole("button", { name: /Explore allocation only|Open sample split/ })
   .first();
 await allocationOnly.waitFor({ timeout: 10000 });
 await allocationOnly.click();
+await page.getByRole("dialog").waitFor({ state: "hidden" });
+await page.waitForTimeout(350);
 await page.locator(".receipt-row").first().waitFor();
 await page.getByRole("button", { name: "Edit restaurant name" }).click();
 await page
@@ -152,6 +166,7 @@ writeFileSync(
       runAt: new Date().toISOString(),
       liveRecognitionTested: false,
       checks: [
+        "Bella Mbriana replaces the 16-item template",
         "sample allocation",
         "exact totals",
         "coffee correction",

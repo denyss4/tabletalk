@@ -1,0 +1,24 @@
+{
+  "runAt": "2026-09-22T08:52:25.333Z",
+  "scope": {
+    "maxPrintedRows": 10,
+    "maxExpandedItems": 10
+  },
+  "bellaMbriana": {
+    "status": 200,
+    "merchant": "Bella 'Mbriana",
+    "printedRows": 4,
+    "expandedItems": 5,
+    "latencyMs": 14094,
+    "outcome": "accepted"
+  },
+  "formerTemplateBoundary": {
+    "fixture": "public/samples/templates/pochi-panini-e-poi-16.jpg",
+    "status": 422,
+    "code": "RECEIPT_SCOPE_EXCEEDED",
+    "recognizedExpandedItems": 16,
+    "latencyMs": 17906,
+    "outcome": "rejected before split state was created",
+    "error": "This receipt contains 16 individual items. This prototype supports up to 10. Please use a shorter receipt."
+  }
+}

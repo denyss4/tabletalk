@@ -1,7 +1,8 @@
 {
-  "runAt": "2026-09-22T08:25:39.704Z",
+  "runAt": "2026-09-22T08:57:12.134Z",
   "liveRecognitionTested": false,
   "checks": [
+    "Bella Mbriana replaces the 16-item template",
     "sample allocation",
     "exact totals",
     "coffee correction",

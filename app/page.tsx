@@ -246,8 +246,8 @@ export default function Home() {
             </h2>
             <span className="small-label">
               {app.state
-                ? `${app.state.receipt.rows.length} PRINTED ROWS`
-                : "UP TO 10 ROWS"}
+                ? `${app.state.receipt.rows.length} ROWS · ${items.length} ITEMS`
+                : "UP TO 10 ROWS · 10 ITEMS"}
             </span>
           </div>
           {!app.state ? (
