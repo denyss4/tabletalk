@@ -4,7 +4,7 @@ These are the three original photos supplied for the template gallery. They are 
 
 | Asset | Source filename | Visible details and scope limitations |
 | --- | --- | --- |
-| bella-mbriana.jpg | bella-mbriana.jpg | Four food and drink rows; cover charge EUR 2.50; total EUR 51.00. The item subtotal is not printed and must stay unresolved until confirmed. |
+| westin-fort-lauderdale.jpg | images.jpg | Two food rows; subtotal USD 34.00; service USD 6.12; sales and alcohol tax; total USD 42.50. This is outside the EUR prototype and must be declined rather than presented as complete. |
 | pochi-panini-e-poi-16.jpg | pochi-panini-e-poi-16.jpg | Seven food and drink rows with repeated quantities; service EUR 15.20; total EUR 110.20. The item subtotal is not printed and must stay unresolved until confirmed. |
 | pizzaferaj-city.png | IMG_6894.png | Five rows, six units; EUR 57.30. Croatian source, tax recap, no explicit service charge or subtotal. Missing fields must stay unresolved. |
 

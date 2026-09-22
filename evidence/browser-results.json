@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-09-22T09:17:18.466Z",
+  "runAt": "2026-09-22T10:23:53.299Z",
   "liveRecognitionTested": false,
   "checks": [
     "sample allocation",
@@ -13,7 +13,8 @@
     "voice repeat and cancel controls",
     "upload recognition error appears below the receipt preview",
     "file replacement requires explicit confirmation",
-    "Bella Mbriana template deliberately replaces the current receipt",
+    "Pochi Panini e Poi template deliberately replaces the current receipt",
+    "Westin receipt is available as an out-of-scope USD template",
     "visible button touch targets are at least 44px"
   ],
   "consoleErrors": []

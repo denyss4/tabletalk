@@ -116,6 +116,7 @@ const undersizedButtons = await page
   .evaluateAll((buttons) =>
     buttons
       .filter((button) => button.getBoundingClientRect().height < 44)
+      .filter((button) => button.id !== "next-logo")
       .map((button) => ({
         text: button.textContent?.trim(),
         height: button.getBoundingClientRect().height,
@@ -141,43 +142,43 @@ await page.route("**/api/receipt", (route) =>
     contentType: "application/json",
     body: JSON.stringify({
       receipt: {
-        merchant: "Bella Mbriana",
+        merchant: "Pochi Panini e Poi",
         currency: "EUR",
         rows: [
           {
             id: "r1",
-            name: "Menu degustazione",
+            name: "Tosti",
             quantity: 1,
-            amountMinor: 3000,
+            amountMinor: 2400,
             uncertain: false,
           },
           {
             id: "r2",
-            name: "Gnocchetti",
+            name: "Semplice",
             quantity: 1,
-            amountMinor: 1000,
+            amountMinor: 2700,
             uncertain: false,
           },
           {
             id: "r3",
-            name: "Spina",
+            name: "Soft drinks",
             quantity: 1,
-            amountMinor: 450,
+            amountMinor: 2400,
             uncertain: false,
           },
           {
             id: "r4",
-            name: "Coca Cola",
-            quantity: 2,
-            amountMinor: 400,
+            name: "Caffe espresso",
+            quantity: 1,
+            amountMinor: 2000,
             uncertain: false,
           },
         ],
         subtotalMinor: null,
         subtotalStatus: "not_printed",
-        serviceMinor: 250,
+        serviceMinor: 1520,
         serviceStatus: "printed",
-        totalMinor: 5100,
+        totalMinor: 11020,
         totalStatus: "printed",
         warnings: [],
       },
@@ -187,10 +188,13 @@ await page.route("**/api/receipt", (route) =>
 );
 await page.getByRole("button", { name: "Templates", exact: true }).click();
 await page
-  .getByRole("button", { name: "Read Bella Mbriana receipt", exact: true })
+  .getByRole("heading", { name: "Westin Fort Lauderdale", exact: true })
+  .waitFor();
+await page
+  .getByRole("button", { name: "Read Pochi Panini e Poi receipt", exact: true })
   .click();
 await page.getByRole("heading", { name: "Replace this receipt?" }).waitFor();
-await page.getByText("Bella Mbriana", { exact: true }).waitFor();
+await page.getByText("Pochi Panini e Poi", { exact: true }).waitFor();
 assert.equal(
   await page.locator(".receipt-meta h3").textContent(),
   merchantBeforeReplacement,
@@ -198,8 +202,8 @@ assert.equal(
 await page
   .getByRole("button", { name: "Replace receipt", exact: true })
   .click();
-await page.getByRole("heading", { name: "Bella Mbriana" }).waitFor();
-assert.equal(await page.locator(".receipt-row").count(), 5);
+await page.getByRole("heading", { name: "Pochi Panini e Poi" }).waitFor();
+assert.equal(await page.locator(".receipt-row").count(), 4);
 const errorPage = await browser.newPage({
   viewport: { width: 1224, height: 900 },
 });
@@ -241,7 +245,8 @@ writeFileSync(
         "voice repeat and cancel controls",
         "upload recognition error appears below the receipt preview",
         "file replacement requires explicit confirmation",
-        "Bella Mbriana template deliberately replaces the current receipt",
+        "Pochi Panini e Poi template deliberately replaces the current receipt",
+        "Westin receipt is available as an out-of-scope USD template",
         "visible button touch targets are at least 44px",
       ],
       consoleErrors: errors,

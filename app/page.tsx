@@ -934,7 +934,7 @@ export default function Home() {
                     ? "Choose who shared it. We’ll divide the price equally."
                     : modal === "photo"
                       ? "Check the recognized rows against the photo."
-                      : "Read a supplied photo, or explore the fictional test receipt and voice recordings."}
+                    : "Read a supplied receipt photo, or review the voice scenarios."}
           </DialogDescription>
           {modal === "replace" && replacement && (
             <div className="replace-confirmation">
@@ -1133,48 +1133,7 @@ export default function Home() {
                 disabled={locked}
                 onRead={requestTemplateReceipt}
               />
-              <h3 className="sample-section-title">Test receipt</h3>
-              <div className="sample-photo">
-                <img
-                  src="/samples/receipt-display.webp"
-                  alt="Table Nine sample receipt, total EUR 47.75"
-                  width="768"
-                  height="1152"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div>
-                  <strong>Table Nine · €47.75</strong>
-                  <p>
-                    Two coffees, three mains, shared fries and a service charge.
-                  </p>
-                  <button
-                    className="primary"
-                    disabled={locked}
-                    onClick={() => {
-                      setModal(null);
-                      if (app.configured === true) void app.readSample(false);
-                      else app.startExample();
-                    }}
-                  >
-                    {app.configured === true
-                      ? "Read sample photo"
-                      : "Open sample split"}
-                  </button>
-                  {app.configured === true && (
-                    <button
-                      className="text-button"
-                      disabled={locked}
-                      onClick={() => {
-                        setModal(null);
-                        void app.readSample(true);
-                      }}
-                    >
-                      Try the unreadable version
-                    </button>
-                  )}
-                </div>
-              </div>
+              <h3 className="sample-section-title">Voice scenarios</h3>
               {app.configured === false && (
                 <p className="sample-live-note">
                   The saved recordings remain available to review. Running
