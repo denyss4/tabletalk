@@ -455,7 +455,10 @@ h1 {
 }
 footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
   padding: 30px 0;
   color: #718089;
   font-size: 12px;
@@ -1096,6 +1099,9 @@ footer p {
   padding-right: 20px;
 }
 footer > span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   white-space: nowrap;
 }
 .small-label {
