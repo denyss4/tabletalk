@@ -1549,3 +1549,13 @@ footer summary {
     width: 100%;
   }
 }
+
+.replace-confirmation p {
+  margin: 2px 0 8px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.replace-confirmation strong {
+  color: var(--foreground);
+}

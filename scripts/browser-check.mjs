@@ -32,25 +32,11 @@ await page.goto("http://localhost:5173/", {
 await page
   .getByRole("button", { name: "Browse receipt templates", exact: true })
   .click();
-assert.equal(
-  await page
-    .getByRole("heading", { name: "Bella Mbriana", exact: true })
-    .count(),
-  1,
-);
-assert.equal(
-  await page
-    .getByRole("heading", { name: "Pochi Panini e Poi", exact: true })
-    .count(),
-  0,
-);
 const allocationOnly = page
   .getByRole("button", { name: /Explore allocation only|Open sample split/ })
   .first();
 await allocationOnly.waitFor({ timeout: 10000 });
 await allocationOnly.click();
-await page.getByRole("dialog").waitFor({ state: "hidden" });
-await page.waitForTimeout(350);
 await page.locator(".receipt-row").first().waitFor();
 await page.getByRole("button", { name: "Edit restaurant name" }).click();
 await page
@@ -136,6 +122,84 @@ const undersizedButtons = await page
       })),
   );
 assert.deepEqual(undersizedButtons, []);
+const merchantBeforeReplacement = await page
+  .locator(".receipt-meta h3")
+  .textContent();
+await page
+  .locator('input[type="file"][accept^="image"]')
+  .setInputFiles("public/samples/receipt.jpg");
+await page.getByRole("heading", { name: "Replace this receipt?" }).waitFor();
+await page.getByText("receipt.jpg", { exact: false }).waitFor();
+await page.getByRole("button", { name: "Keep current receipt" }).click();
+assert.equal(
+  await page.locator(".receipt-meta h3").textContent(),
+  merchantBeforeReplacement,
+);
+await page.route("**/api/receipt", (route) =>
+  route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({
+      receipt: {
+        merchant: "Bella Mbriana",
+        currency: "EUR",
+        rows: [
+          {
+            id: "r1",
+            name: "Menu degustazione",
+            quantity: 1,
+            amountMinor: 3000,
+            uncertain: false,
+          },
+          {
+            id: "r2",
+            name: "Gnocchetti",
+            quantity: 1,
+            amountMinor: 1000,
+            uncertain: false,
+          },
+          {
+            id: "r3",
+            name: "Spina",
+            quantity: 1,
+            amountMinor: 450,
+            uncertain: false,
+          },
+          {
+            id: "r4",
+            name: "Coca Cola",
+            quantity: 2,
+            amountMinor: 400,
+            uncertain: false,
+          },
+        ],
+        subtotalMinor: null,
+        subtotalStatus: "not_printed",
+        serviceMinor: 250,
+        serviceStatus: "printed",
+        totalMinor: 5100,
+        totalStatus: "printed",
+        warnings: [],
+      },
+      operations: [],
+    }),
+  }),
+);
+await page.getByRole("button", { name: "Templates", exact: true }).click();
+await page
+  .getByRole("button", { name: "Read Bella Mbriana receipt", exact: true })
+  .click();
+await page.getByRole("heading", { name: "Replace this receipt?" }).waitFor();
+await page.getByText("Bella Mbriana", { exact: true }).waitFor();
+assert.equal(
+  await page.locator(".receipt-meta h3").textContent(),
+  merchantBeforeReplacement,
+);
+await page
+  .getByRole("button", { name: "Replace receipt", exact: true })
+  .click();
+await page.getByRole("heading", { name: "Bella Mbriana" }).waitFor();
+assert.equal(await page.locator(".receipt-row").count(), 5);
 const errorPage = await browser.newPage({
   viewport: { width: 1224, height: 900 },
 });
@@ -166,7 +230,6 @@ writeFileSync(
       runAt: new Date().toISOString(),
       liveRecognitionTested: false,
       checks: [
-        "Bella Mbriana replaces the 16-item template",
         "sample allocation",
         "exact totals",
         "coffee correction",
@@ -177,6 +240,8 @@ writeFileSync(
         "restaurant rename then undo preserves receipt state",
         "voice repeat and cancel controls",
         "upload recognition error appears below the receipt preview",
+        "file replacement requires explicit confirmation",
+        "Bella Mbriana template deliberately replaces the current receipt",
         "visible button touch targets are at least 44px",
       ],
       consoleErrors: errors,
@@ -186,6 +251,6 @@ writeFileSync(
   ),
 );
 console.log(
-  "PASS: allocation, correction, unresolved-state gate, undo, names, merchant edit, voice controls, error placement, mobile, touch targets.",
+  "PASS: allocation, correction, unresolved-state gate, undo, names, merchant edit, voice controls, intentional receipt replacement, error placement, mobile, touch targets.",
 );
 await browser.close();

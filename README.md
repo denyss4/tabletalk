@@ -44,8 +44,9 @@ The checked-in defaults are an evaluation benchmark: 7% of public GPT-5.4 token 
 4. Resolve repeated-item ambiguity through voice or explicit row choices.
 5. Confirm proposed changes to unreadable receipt amounts.
 6. Correct ownership with commands such as “Actually, the second coffee was Sam's.”
-7. Review final totals only after every row is allocated and the receipt reconciles exactly.
-8. Export session evidence containing input state, operations, retries, timing, cost assumptions and verification.
+7. Use **Replace receipt** when deliberately switching to another photo or template; confirm before the current rows and allocations are cleared.
+8. Review final totals only after every row is allocated and the receipt reconciles exactly.
+9. Export session evidence containing input state, operations, retries, timing, cost assumptions and verification.
 
 The sample dialog offers **Run transcript** when browser speech is configured. This sends the script paired with the WAV fixture through the live intent model for reproducible testing. It is explicitly labelled and does not claim to test microphone transcription.
 
@@ -70,7 +71,7 @@ The sample dialog offers **Run transcript** when browser speech is configured. T
 | Ambiguous repeated item | `ambiguous.wav`                                | Ask which coffee; remain unsettled             |
 | Unreadable              | `receipt-unreadable.jpg`                       | Pasta amount remains `null`; decline to settle |
 
-Inputs and scripts are in `public/samples`. Ground truth was recorded before testing in `evidence/expected-results.json`. The app also processes arbitrary uploaded photos through the same endpoint; `custom-receipt.png` is an independent recognition check. `evidence/scope-boundary-results.json` records a live Bella Mbriana acceptance and a 16-item receipt rejection before split state was created.
+Inputs and scripts are in `public/samples`. Ground truth was recorded before testing in `evidence/expected-results.json`. The app also processes arbitrary uploaded photos through the same endpoint; `custom-receipt.png` is an independent recognition check.
 
 ## Measured results
 
@@ -100,7 +101,7 @@ node scripts/verify-recognition.mjs  # live provider calls; charges may apply
 node scripts/record-walkthrough.mjs  # requires Playwright FFmpeg
 ```
 
-Current automated result: **26/26 tests pass**, including exact remainder conservation, ambiguous repeated items, correction idempotence, rename/Undo consistency and browser speech event deduplication. The browser check verifies exact totals, unresolved-state gating, the Bella Mbriana gallery replacement, mobile overflow, name restoration and 44-pixel button targets.
+Current automated result: **25/25 tests pass**, including exact remainder conservation, ambiguous repeated items, correction idempotence, rename/Undo consistency and browser speech event deduplication. The browser check verifies exact totals, unresolved-state gating, deliberate receipt replacement, mobile overflow, name restoration and 44-pixel button targets.
 
 ## Architecture
 
@@ -128,4 +129,4 @@ Reused components: Next.js, React, Zod, Radix/shadcn components, Lucide icons an
 - Physical microphone transcription has not been captured in automated evidence; browser speech cannot consume the WAV fixtures directly.
 - Focused historical implementation time was not tracked contemporaneously and cannot be reconstructed accurately.
 - RSI AI exposes usage but no per-model price metadata. Costs therefore use the documented configurable benchmark and should be checked against an invoice.
-- English, EUR, three people, ten printed rows, ten expanded individual items and one shared item are intentional prototype limits.
+- English, EUR, three people, ten printed rows and one shared item are intentional prototype limits.

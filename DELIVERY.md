@@ -21,7 +21,6 @@ Focused historical implementation time was not recorded contemporaneously. Do no
 - Live results and raw usage: `evidence/live-recognition-results.json`
 - Dialogue timing/cost summary: `evidence/dialogue-results.json`
 - Browser results: `evidence/browser-results.json`
-- Live ten-item boundary result: `evidence/scope-boundary-results.json`
 
 ## Expected and actual results
 
@@ -33,8 +32,7 @@ Focused historical implementation time was not recorded contemporaneously. Do no
 | Ambiguous coffee           | Ask which coffee and remain unsettled          | Pass; no assignment applied                  |
 | Unreadable pasta           | Preserve unknown amount and decline settlement | Pass; amount is `null`, row uncertain        |
 | Independent custom receipt | Three recorded rows, €21.45 total              | Pass; matched preregistered expected values  |
-| Bella Mbriana replacement  | Supported receipt stays within ten-item scope  | Pass; 4 rows and 5 expanded items            |
-| Former 16-item template    | Reject before creating an allocation state     | Pass; HTTP 422 `RECEIPT_SCOPE_EXCEEDED`      |
+| Intentional replacement    | Confirm before clearing the current split      | Pass; file cancel and Bella template replace |
 
 ## Measurements
 

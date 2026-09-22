@@ -30,11 +30,12 @@ import { Progress } from "@/components/ui/progress";
 import { itemsOf, money } from "@/lib/split";
 import { useTabletalk } from "@/lib/use-tabletalk";
 import { ReceiptTemplates } from "@/components/receipt-templates";
+import type { ReceiptTemplate as ReceiptTemplateData } from "@/lib/receipt-templates";
 import { ReceiptVerification } from "@/components/receipt-verification";
 export default function Home() {
   const app = useTabletalk();
   const [modal, setModal] = useState<
-    "names" | "merchant" | "sample" | "photo" | "share" | null
+    "names" | "merchant" | "replace" | "sample" | "photo" | "share" | null
   >(null);
   const [names, setNames] = useState(app.people.map((p) => p.name));
   const [nameError, setNameError] = useState("");
@@ -42,6 +43,11 @@ export default function Home() {
   const [merchantError, setMerchantError] = useState("");
   const [shareItem, setShareItem] = useState("");
   const [sharers, setSharers] = useState<string[]>([]);
+  const [replacement, setReplacement] = useState<
+    | { kind: "file"; file: File }
+    | { kind: "template"; template: ReceiptTemplateData }
+    | null
+  >(null);
   const photoInput = useRef<HTMLInputElement>(null);
   const audioInput = useRef<HTMLInputElement>(null);
   const nameInputs = useRef<Array<HTMLInputElement | null>>([]);
@@ -153,6 +159,31 @@ export default function Home() {
     } catch {}
     return () => lifecycle.abort();
   }, []);
+  function requestFileReceipt(file: File) {
+    if (!app.state) {
+      void app.uploadPhoto(file);
+      return;
+    }
+    setReplacement({ kind: "file", file });
+    setModal("replace");
+  }
+  function requestTemplateReceipt(template: ReceiptTemplateData) {
+    if (!app.state) {
+      setModal(null);
+      void app.readTemplate(template);
+      return;
+    }
+    setReplacement({ kind: "template", template });
+    setModal("replace");
+  }
+  function confirmReplacement() {
+    const selected = replacement;
+    if (!selected) return;
+    setReplacement(null);
+    setModal(null);
+    if (selected.kind === "file") void app.uploadPhoto(selected.file);
+    else void app.readTemplate(selected.template);
+  }
   function openShare(id: string) {
     setShareItem(id);
     setSharers(
@@ -222,7 +253,7 @@ export default function Home() {
         accept="image/jpeg,image/png,image/webp"
         onChange={(e) => {
           const file = e.target.files?.[0];
-          if (file) void app.uploadPhoto(file);
+          if (file) requestFileReceipt(file);
           e.target.value = "";
         }}
       />
@@ -246,8 +277,8 @@ export default function Home() {
             </h2>
             <span className="small-label">
               {app.state
-                ? `${app.state.receipt.rows.length} ROWS · ${items.length} ITEMS`
-                : "UP TO 10 ROWS · 10 ITEMS"}
+                ? `${app.state.receipt.rows.length} PRINTED ROWS`
+                : "UP TO 10 ROWS"}
             </span>
           </div>
           {!app.state ? (
@@ -399,7 +430,7 @@ export default function Home() {
                     onClick={() => photoInput.current?.click()}
                   >
                     <Upload size={14} />
-                    Add your receipt
+                    Replace receipt
                   </button>
                   <button disabled={locked} onClick={app.reset}>
                     <RotateCcw size={14} />
@@ -872,7 +903,10 @@ export default function Home() {
       <Dialog
         open={modal !== null}
         onOpenChange={(open) => {
-          if (!open) setModal(null);
+          if (!open) {
+            setModal(null);
+            setReplacement(null);
+          }
         }}
       >
         <DialogContent className={modal === "photo" ? "photo-dialog" : ""}>
@@ -881,23 +915,59 @@ export default function Home() {
               ? "Who’s at the table?"
               : modal === "merchant"
                 ? "Restaurant name"
-                : modal === "share"
-                  ? "Share this item"
-                  : modal === "photo"
-                    ? "Original receipt"
-                    : "Receipt templates & samples"}
+                : modal === "replace"
+                  ? "Replace this receipt?"
+                  : modal === "share"
+                    ? "Share this item"
+                    : modal === "photo"
+                      ? "Original receipt"
+                      : "Receipt templates & samples"}
           </DialogTitle>
           <DialogDescription>
             {modal === "names"
               ? "Use these names when you speak. You can change them any time."
               : modal === "merchant"
                 ? "Correct the recognized restaurant name without changing any receipt rows."
-                : modal === "share"
-                  ? "Choose who shared it. We’ll divide the price equally."
-                  : modal === "photo"
-                    ? "Check the recognized rows against the photo."
-                    : "Read a supplied photo, or explore the fictional test receipt and voice recordings."}
+                : modal === "replace"
+                  ? "This deliberately clears the current rows, assignments and corrections, then recognizes the selected receipt from scratch."
+                  : modal === "share"
+                    ? "Choose who shared it. We’ll divide the price equally."
+                    : modal === "photo"
+                      ? "Check the recognized rows against the photo."
+                      : "Read a supplied photo, or explore the fictional test receipt and voice recordings."}
           </DialogDescription>
+          {modal === "replace" && replacement && (
+            <div className="replace-confirmation">
+              <p>
+                Replace with{" "}
+                <strong>
+                  {replacement.kind === "file"
+                    ? replacement.file.name
+                    : replacement.template.name}
+                </strong>
+                ?
+              </p>
+              <div className="dialog-actions">
+                <button
+                  className="secondary-button"
+                  type="button"
+                  onClick={() => {
+                    setReplacement(null);
+                    setModal(null);
+                  }}
+                >
+                  Keep current receipt
+                </button>
+                <button
+                  className="primary"
+                  type="button"
+                  onClick={confirmReplacement}
+                >
+                  Replace receipt
+                </button>
+              </div>
+            </div>
+          )}
           {modal === "merchant" && (
             <form
               className="merchant-form"
@@ -1061,10 +1131,7 @@ export default function Home() {
             <div className="sample-content">
               <ReceiptTemplates
                 disabled={locked}
-                onRead={(template) => {
-                  setModal(null);
-                  void app.readTemplate(template);
-                }}
+                onRead={requestTemplateReceipt}
               />
               <h3 className="sample-section-title">Test receipt</h3>
               <div className="sample-photo">
