@@ -1,13 +1,13 @@
 {
   "speechMode": "browser",
   "provider": "https://www.rsiai.net",
-  "testedAt": "2026-09-21T11:36:07.842Z",
-  "kind": "live API integration; microphone capture tested separately",
+  "testedAt": "2026-09-21T22:32:30.459Z",
+  "kind": "live API integration with recorded-fixture durations; physical microphone capture remains a deployment check",
   "results": [
     {
       "name": "custom receipt",
       "status": 200,
-      "elapsedMs": 5416,
+      "elapsedMs": 5372,
       "receipt": {
         "merchant": "RIVER CAFE",
         "currency": "EUR",
@@ -35,31 +35,34 @@
           }
         ],
         "subtotalMinor": 1950,
+        "subtotalStatus": "printed",
         "serviceMinor": 195,
+        "serviceStatus": "printed",
         "totalMinor": 2145,
+        "totalStatus": "printed",
         "warnings": []
       },
       "operations": [
         {
-          "id": "c3b6cc08-df58-4dbf-a279-3ec9b0ec2ef7",
+          "id": "9a7ab4a6-1086-4ea9-85ad-aa2fae597fe3",
           "stage": "receipt",
           "model": "gpt-5.6-sol",
           "provider": "https://www.rsiai.net",
-          "latencyMs": 5368,
+          "latencyMs": 5328,
           "status": "succeeded",
-          "costUSD": null,
-          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "costUSD": 0.00037029999999999995,
+          "costBasis": "Estimate in USD per million tokens: input 0.175, cached 0.0175, output 1.05; configured benchmark assumption checked 2026-09-22 Intermediary https://www.rsiai.net is included through the configured rates; verify against its invoice.",
           "usage": {
             "attribution": {
               "items": {
-                "msg_00762079c55b9097016ab116a6edc487d0ad3e19f0e68d3f42": {
+                "msg_0d09e1741d66729a016ab1b07d5f7487d088532e4230cc5c11": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 13,
+                      "input_tokens": 24,
                       "output_tokens": 0
                     },
                     {
@@ -69,10 +72,10 @@
                       "output_tokens": 0
                     }
                   ],
-                  "input_tokens": 885,
+                  "input_tokens": 896,
                   "output_tokens": 0
                 },
-                "msg_00762079c55b9097016ab116a7e7a087d0873b171d7221d2c4": {
+                "msg_0d09e1741d66729a016ab1b07deb3c87d0971fa56eac601055": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
@@ -80,41 +83,41 @@
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
                       "input_tokens": 2,
-                      "output_tokens": 98
+                      "output_tokens": 113
                     }
                   ],
                   "input_tokens": 2,
-                  "output_tokens": 98
+                  "output_tokens": 113
                 }
               },
               "request_fields": {
                 "text.format": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
-                  "input_tokens": 120,
+                  "input_tokens": 183,
                   "output_tokens": 0
                 },
                 "instructions": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
-                  "input_tokens": 226,
+                  "input_tokens": 357,
                   "output_tokens": 0
                 }
               }
             },
-            "input_tokens": 1233,
+            "input_tokens": 1438,
             "input_tokens_details": {
               "cache_write_tokens": 0,
               "cached_tokens": 0
             },
-            "output_tokens": 98,
+            "output_tokens": 113,
             "output_tokens_details": {
               "reasoning_tokens": 0
             },
-            "total_tokens": 1331
+            "total_tokens": 1551
           },
-          "inputTokens": 1233,
-          "outputTokens": 98,
+          "inputTokens": 1438,
+          "outputTokens": 113,
           "cachedTokens": 0
         }
       ],
@@ -123,7 +126,7 @@
     {
       "name": "reference receipt",
       "status": 200,
-      "elapsedMs": 7964,
+      "elapsedMs": 8352,
       "receipt": {
         "merchant": "TABLE NINE",
         "currency": "EUR",
@@ -172,31 +175,34 @@
           }
         ],
         "subtotalMinor": 4340,
+        "subtotalStatus": "printed",
         "serviceMinor": 435,
+        "serviceStatus": "printed",
         "totalMinor": 4775,
+        "totalStatus": "printed",
         "warnings": []
       },
       "operations": [
         {
-          "id": "c1962954-0f51-4dea-a3fa-be61af64a7e6",
+          "id": "2186d7e8-1968-48cc-b74d-6dcf98f331a3",
           "stage": "receipt",
           "model": "gpt-5.6-sol",
           "provider": "https://www.rsiai.net",
-          "latencyMs": 7916,
+          "latencyMs": 8319,
           "status": "succeeded",
-          "costUSD": null,
-          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "costUSD": 0.0006004249999999999,
+          "costBasis": "Estimate in USD per million tokens: input 0.175, cached 0.0175, output 1.05; configured benchmark assumption checked 2026-09-22 Intermediary https://www.rsiai.net is included through the configured rates; verify against its invoice.",
           "usage": {
             "attribution": {
               "items": {
-                "msg_022239791fb65f18016ab116abec2c87d0a5abd3e92efc1e80": {
+                "msg_093c7ef2b3f4e46d016ab1b082c0f487d09529488ba3fc7fa0": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 13,
+                      "input_tokens": 24,
                       "output_tokens": 0
                     },
                     {
@@ -206,10 +212,10 @@
                       "output_tokens": 0
                     }
                   ],
-                  "input_tokens": 1858,
+                  "input_tokens": 1869,
                   "output_tokens": 0
                 },
-                "msg_022239791fb65f18016ab116ae6de087d086be907854a2f1bf": {
+                "msg_093c7ef2b3f4e46d016ab1b083cac887d0972a07076d57bf1e": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
@@ -217,41 +223,41 @@
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
                       "input_tokens": 2,
-                      "output_tokens": 155
+                      "output_tokens": 170
                     }
                   ],
                   "input_tokens": 2,
-                  "output_tokens": 155
+                  "output_tokens": 170
                 }
               },
               "request_fields": {
                 "text.format": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
-                  "input_tokens": 120,
+                  "input_tokens": 183,
                   "output_tokens": 0
                 },
                 "instructions": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
-                  "input_tokens": 226,
+                  "input_tokens": 357,
                   "output_tokens": 0
                 }
               }
             },
-            "input_tokens": 2206,
+            "input_tokens": 2411,
             "input_tokens_details": {
               "cache_write_tokens": 0,
               "cached_tokens": 0
             },
-            "output_tokens": 155,
+            "output_tokens": 170,
             "output_tokens_details": {
               "reasoning_tokens": 0
             },
-            "total_tokens": 2361
+            "total_tokens": 2581
           },
-          "inputTokens": 2206,
-          "outputTokens": 155,
+          "inputTokens": 2411,
+          "outputTokens": 170,
           "cachedTokens": 0
         }
       ]
@@ -259,7 +265,7 @@
     {
       "name": "normal",
       "status": 200,
-      "elapsedMs": 3550,
+      "elapsedMs": 5255,
       "intent": {
         "assignments": [
           {
@@ -299,44 +305,50 @@
       "revision": 0,
       "operations": [
         {
-          "id": "0bdda642-8ae5-4e0d-9dcf-505ccb187fe6",
+          "id": "aeb6df6b-0acb-418d-bed6-fdc05522d4b0",
           "stage": "intent",
           "model": "gpt-5.6-sol",
           "provider": "https://www.rsiai.net",
-          "latencyMs": 3488,
+          "latencyMs": 5226,
           "status": "succeeded",
-          "costUSD": null,
-          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "costUSD": 0.00030275,
+          "costBasis": "Estimate in USD per million tokens: input 0.175, cached 0.0175, output 1.05; configured benchmark assumption checked 2026-09-22 Intermediary https://www.rsiai.net is included through the configured rates; verify against its invoice.",
           "usage": {
             "attribution": {
               "items": {
-                "msg_04c9dd6d367d0a92016ab116b27cb487d0a54ffc6a5e5b59ca": {
+                "msg_0f7625953e03b1ec016ab1b089151087d08de81e7d73379ade": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 427,
+                      "input_tokens": 442,
                       "output_tokens": 0
                     }
                   ],
-                  "input_tokens": 427,
+                  "input_tokens": 442,
                   "output_tokens": 0
                 },
-                "msg_04c9dd6d367d0a92016ab116b378dc87d08946958dbc24d9bc": {
+                "rs_0f7625953e03b1ec016ab1b089c4b087d0a60d12acf2b769fb": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 2,
+                  "output_tokens": 35
+                },
+                "msg_0f7625953e03b1ec016ab1b08b5d5487d0811900e66e5d5e61": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 2,
-                      "output_tokens": 94
+                      "input_tokens": 0,
+                      "output_tokens": 96
                     }
                   ],
-                  "input_tokens": 2,
-                  "output_tokens": 94
+                  "input_tokens": 0,
+                  "output_tokens": 96
                 }
               },
               "request_fields": {
@@ -349,24 +361,24 @@
                 "instructions": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
-                  "input_tokens": 309,
+                  "input_tokens": 328,
                   "output_tokens": 0
                 }
               }
             },
-            "input_tokens": 910,
+            "input_tokens": 944,
             "input_tokens_details": {
               "cache_write_tokens": 0,
               "cached_tokens": 0
             },
-            "output_tokens": 94,
+            "output_tokens": 131,
             "output_tokens_details": {
-              "reasoning_tokens": 0
+              "reasoning_tokens": 35
             },
-            "total_tokens": 1004
+            "total_tokens": 1075
           },
-          "inputTokens": 910,
-          "outputTokens": 94,
+          "inputTokens": 944,
+          "outputTokens": 131,
           "cachedTokens": 0
         }
       ],
@@ -409,7 +421,7 @@
     {
       "name": "shared",
       "status": 200,
-      "elapsedMs": 4168,
+      "elapsedMs": 6970,
       "intent": {
         "assignments": [
           {
@@ -458,44 +470,50 @@
       "revision": 0,
       "operations": [
         {
-          "id": "af67b782-6f9b-4c64-abe0-4a73955a5263",
+          "id": "e2ab615d-df66-4b68-a8ab-134cbaf708e4",
           "stage": "intent",
           "model": "gpt-5.6-sol",
           "provider": "https://www.rsiai.net",
-          "latencyMs": 4101,
+          "latencyMs": 6948,
           "status": "succeeded",
-          "costUSD": null,
-          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "costUSD": 0.00030835000000000004,
+          "costBasis": "Estimate in USD per million tokens: input 0.175, cached 0.0175, output 1.05; configured benchmark assumption checked 2026-09-22 Intermediary https://www.rsiai.net is included through the configured rates; verify against its invoice.",
           "usage": {
             "attribution": {
               "items": {
-                "msg_0d892f8f076d4cd2016ab116b6161087d08d1a8ceb8e7afcac": {
+                "msg_0de9327aaf1570fb016ab1b08f2e5c87d09d4ea37186c24647": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 435,
+                      "input_tokens": 450,
                       "output_tokens": 0
                     }
                   ],
-                  "input_tokens": 435,
+                  "input_tokens": 450,
                   "output_tokens": 0
                 },
-                "msg_0d892f8f076d4cd2016ab116b74ed087d0910a0f4e10732b91": {
+                "rs_0de9327aaf1570fb016ab1b08fee7c87d0b27e263e12b15a61": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 2,
+                  "output_tokens": 22
+                },
+                "msg_0de9327aaf1570fb016ab1b091ede087d0a32911f9d90c24f9": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 2,
-                      "output_tokens": 111
+                      "input_tokens": 0,
+                      "output_tokens": 113
                     }
                   ],
-                  "input_tokens": 2,
-                  "output_tokens": 111
+                  "input_tokens": 0,
+                  "output_tokens": 113
                 }
               },
               "request_fields": {
@@ -508,24 +526,24 @@
                 "instructions": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
-                  "input_tokens": 309,
+                  "input_tokens": 328,
                   "output_tokens": 0
                 }
               }
             },
-            "input_tokens": 918,
+            "input_tokens": 952,
             "input_tokens_details": {
               "cache_write_tokens": 0,
               "cached_tokens": 0
             },
-            "output_tokens": 111,
+            "output_tokens": 135,
             "output_tokens_details": {
-              "reasoning_tokens": 0
+              "reasoning_tokens": 22
             },
-            "total_tokens": 1029
+            "total_tokens": 1087
           },
-          "inputTokens": 918,
-          "outputTokens": 111,
+          "inputTokens": 952,
+          "outputTokens": 135,
           "cachedTokens": 0
         }
       ],
@@ -568,7 +586,7 @@
     {
       "name": "before-correction",
       "status": 200,
-      "elapsedMs": 3782,
+      "elapsedMs": 6442,
       "intent": {
         "assignments": [
           {
@@ -617,44 +635,50 @@
       "revision": 0,
       "operations": [
         {
-          "id": "fdf6a4a0-5db6-4650-9557-aeea88675cd4",
+          "id": "396e8e1c-1081-4413-bd67-4d5eec46598f",
           "stage": "intent",
           "model": "gpt-5.6-sol",
           "provider": "https://www.rsiai.net",
-          "latencyMs": 3730,
+          "latencyMs": 6418,
           "status": "succeeded",
-          "costUSD": null,
-          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "costUSD": 0.000328125,
+          "costBasis": "Estimate in USD per million tokens: input 0.175, cached 0.0175, output 1.05; configured benchmark assumption checked 2026-09-22 Intermediary https://www.rsiai.net is included through the configured rates; verify against its invoice.",
           "usage": {
             "attribution": {
               "items": {
-                "msg_0e2e9e37bfb5cbeb016ab116ba565c87d08b3b0f753ae3f9e6": {
+                "msg_0feeb6760ef9848f016ab1b0955cd487d096ce7854dd7a9d7f": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 428,
+                      "input_tokens": 443,
                       "output_tokens": 0
                     }
                   ],
-                  "input_tokens": 428,
+                  "input_tokens": 443,
                   "output_tokens": 0
                 },
-                "msg_0e2e9e37bfb5cbeb016ab116bb0e1487d08b5fed50c7d22df9": {
+                "rs_0feeb6760ef9848f016ab1b096331c87d08a4b8bce2d4532a5": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 2,
+                  "output_tokens": 42
+                },
+                "msg_0feeb6760ef9848f016ab1b0986c0887d096cc9d06a5516001": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 2,
-                      "output_tokens": 111
+                      "input_tokens": 0,
+                      "output_tokens": 113
                     }
                   ],
-                  "input_tokens": 2,
-                  "output_tokens": 111
+                  "input_tokens": 0,
+                  "output_tokens": 113
                 }
               },
               "request_fields": {
@@ -667,24 +691,24 @@
                 "instructions": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
-                  "input_tokens": 309,
+                  "input_tokens": 328,
                   "output_tokens": 0
                 }
               }
             },
-            "input_tokens": 911,
+            "input_tokens": 945,
             "input_tokens_details": {
               "cache_write_tokens": 0,
               "cached_tokens": 0
             },
-            "output_tokens": 111,
+            "output_tokens": 155,
             "output_tokens_details": {
-              "reasoning_tokens": 0
+              "reasoning_tokens": 42
             },
-            "total_tokens": 1022
+            "total_tokens": 1100
           },
-          "inputTokens": 911,
-          "outputTokens": 111,
+          "inputTokens": 945,
+          "outputTokens": 155,
           "cachedTokens": 0
         }
       ],
@@ -726,7 +750,7 @@
     {
       "name": "correction",
       "status": 200,
-      "elapsedMs": 3056,
+      "elapsedMs": 2717,
       "intent": {
         "assignments": [
           {
@@ -747,44 +771,50 @@
       "revision": 1,
       "operations": [
         {
-          "id": "23b69380-352e-4272-937d-7f1eee3fd721",
+          "id": "7931e8da-8c7c-46a0-a35a-f202d474e9b6",
           "stage": "intent",
           "model": "gpt-5.6-sol",
           "provider": "https://www.rsiai.net",
-          "latencyMs": 3022,
+          "latencyMs": 2693,
           "status": "succeeded",
-          "costUSD": null,
-          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "costUSD": 0.00025269999999999996,
+          "costBasis": "Estimate in USD per million tokens: input 0.175, cached 0.0175, output 1.05; configured benchmark assumption checked 2026-09-22 Intermediary https://www.rsiai.net is included through the configured rates; verify against its invoice.",
           "usage": {
             "attribution": {
               "items": {
-                "msg_08029ea82aebb93e016ab116be00e887d0905200ba59d2eea5": {
+                "msg_0307d3bd58e7cc7b016ab1b09bc42487d089b14d15fb0be889": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 471,
+                      "input_tokens": 486,
                       "output_tokens": 0
                     }
                   ],
-                  "input_tokens": 471,
+                  "input_tokens": 486,
                   "output_tokens": 0
                 },
-                "msg_08029ea82aebb93e016ab116bf081087d0b120b73a5e7ff29a": {
+                "rs_0307d3bd58e7cc7b016ab1b09c3c9087d0b66f06969ad1472f": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 2,
+                  "output_tokens": 27
+                },
+                "msg_0307d3bd58e7cc7b016ab1b09ce21487d083f55fe21bda185c": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 2,
-                      "output_tokens": 47
+                      "input_tokens": 0,
+                      "output_tokens": 49
                     }
                   ],
-                  "input_tokens": 2,
-                  "output_tokens": 47
+                  "input_tokens": 0,
+                  "output_tokens": 49
                 }
               },
               "request_fields": {
@@ -797,24 +827,24 @@
                 "instructions": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
-                  "input_tokens": 309,
+                  "input_tokens": 328,
                   "output_tokens": 0
                 }
               }
             },
-            "input_tokens": 954,
+            "input_tokens": 988,
             "input_tokens_details": {
               "cache_write_tokens": 0,
               "cached_tokens": 0
             },
-            "output_tokens": 47,
+            "output_tokens": 76,
             "output_tokens_details": {
-              "reasoning_tokens": 0
+              "reasoning_tokens": 27
             },
-            "total_tokens": 1001
+            "total_tokens": 1064
           },
-          "inputTokens": 954,
-          "outputTokens": 47,
+          "inputTokens": 988,
+          "outputTokens": 76,
           "cachedTokens": 0
         }
       ],
@@ -857,10 +887,10 @@
     {
       "name": "ambiguous",
       "status": 200,
-      "elapsedMs": 2709,
+      "elapsedMs": 2937,
       "intent": {
         "assignments": [],
-        "question": "Which coffee did Sam have: the first or the second?",
+        "question": "Which coffee did Sam have: Coffee #1 or Coffee #2?",
         "candidateItemIds": [
           "r1.1",
           "r2.1"
@@ -874,44 +904,50 @@
       "revision": 0,
       "operations": [
         {
-          "id": "7ea1ac80-ca93-40f3-b762-1c8f78464483",
+          "id": "39f64840-1b21-40c3-84c2-294eff391af1",
           "stage": "intent",
           "model": "gpt-5.6-sol",
           "provider": "https://www.rsiai.net",
-          "latencyMs": 2597,
+          "latencyMs": 2914,
           "status": "succeeded",
-          "costUSD": null,
-          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "costUSD": 0.00025025,
+          "costBasis": "Estimate in USD per million tokens: input 0.175, cached 0.0175, output 1.05; configured benchmark assumption checked 2026-09-22 Intermediary https://www.rsiai.net is included through the configured rates; verify against its invoice.",
           "usage": {
             "attribution": {
               "items": {
-                "msg_01f51c447028d981016ab116c11d8487d093ca1b6a729fb59e": {
+                "msg_0324909f0207a528016ab1b09e8ec087d09be2a0c24291bb2d": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 409,
+                      "input_tokens": 424,
                       "output_tokens": 0
                     }
                   ],
-                  "input_tokens": 409,
+                  "input_tokens": 424,
                   "output_tokens": 0
                 },
-                "msg_01f51c447028d981016ab116c20b7c87d08433acb063d8fb25": {
+                "rs_0324909f0207a528016ab1b09f09e087d083d5010beecce53a": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0,
+                  "input_tokens": 2,
+                  "output_tokens": 26
+                },
+                "msg_0324909f0207a528016ab1b09f9fc087d08dab22ed980249c7": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 2,
-                      "output_tokens": 54
+                      "input_tokens": 0,
+                      "output_tokens": 58
                     }
                   ],
-                  "input_tokens": 2,
-                  "output_tokens": 54
+                  "input_tokens": 0,
+                  "output_tokens": 58
                 }
               },
               "request_fields": {
@@ -924,24 +960,24 @@
                 "instructions": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
-                  "input_tokens": 309,
+                  "input_tokens": 328,
                   "output_tokens": 0
                 }
               }
             },
-            "input_tokens": 892,
+            "input_tokens": 926,
             "input_tokens_details": {
               "cache_write_tokens": 0,
               "cached_tokens": 0
             },
-            "output_tokens": 54,
+            "output_tokens": 84,
             "output_tokens_details": {
-              "reasoning_tokens": 0
+              "reasoning_tokens": 26
             },
-            "total_tokens": 946
+            "total_tokens": 1010
           },
-          "inputTokens": 892,
-          "outputTokens": 54,
+          "inputTokens": 926,
+          "outputTokens": 84,
           "cachedTokens": 0
         }
       ],
@@ -986,7 +1022,7 @@
     {
       "name": "unreadable receipt",
       "status": 200,
-      "elapsedMs": 8583,
+      "elapsedMs": 5353,
       "receipt": {
         "merchant": "TABLE NINE",
         "currency": "EUR",
@@ -1035,31 +1071,34 @@
           }
         ],
         "subtotalMinor": 4340,
+        "subtotalStatus": "printed",
         "serviceMinor": 435,
+        "serviceStatus": "printed",
         "totalMinor": 4775,
+        "totalStatus": "printed",
         "warnings": []
       },
       "operations": [
         {
-          "id": "9c64a6aa-d5ea-4410-bd9a-ad91301e2fd0",
+          "id": "70b7b8a9-fd03-48e3-8026-178bac571259",
           "stage": "receipt",
           "model": "gpt-5.6-sol",
           "provider": "https://www.rsiai.net",
-          "latencyMs": 8543,
+          "latencyMs": 5325,
           "status": "succeeded",
-          "costUSD": null,
-          "costBasis": "Provider/model pricing is unverified. Raw usage retained; intermediary fees must be included before reporting full cost.",
+          "costUSD": 0.000599375,
+          "costBasis": "Estimate in USD per million tokens: input 0.175, cached 0.0175, output 1.05; configured benchmark assumption checked 2026-09-22 Intermediary https://www.rsiai.net is included through the configured rates; verify against its invoice.",
           "usage": {
             "attribution": {
               "items": {
-                "msg_05360a94b7673a21016ab116c5534087d0a47e30008cf718c4": {
+                "msg_0949cd26b61d0d12016ab1b0a250e487d0a492e804b2ab2514": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 13,
+                      "input_tokens": 24,
                       "output_tokens": 0
                     },
                     {
@@ -1069,58 +1108,52 @@
                       "output_tokens": 0
                     }
                   ],
-                  "input_tokens": 1858,
+                  "input_tokens": 1869,
                   "output_tokens": 0
                 },
-                "rs_05360a94b7673a21016ab116c60f8487d0a15e89d0b2c38f99": {
-                  "cache_write_tokens": 0,
-                  "cached_tokens": 0,
-                  "input_tokens": 2,
-                  "output_tokens": 102
-                },
-                "msg_05360a94b7673a21016ab116c980c087d0a79e944537cbcf86": {
+                "msg_0949cd26b61d0d12016ab1b0a2f13887d0b949ae517bd974c5": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
                   "content": [
                     {
                       "cache_write_tokens": 0,
                       "cached_tokens": 0,
-                      "input_tokens": 0,
-                      "output_tokens": 156
+                      "input_tokens": 2,
+                      "output_tokens": 169
                     }
                   ],
-                  "input_tokens": 0,
-                  "output_tokens": 156
+                  "input_tokens": 2,
+                  "output_tokens": 169
                 }
               },
               "request_fields": {
                 "text.format": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
-                  "input_tokens": 120,
+                  "input_tokens": 183,
                   "output_tokens": 0
                 },
                 "instructions": {
                   "cache_write_tokens": 0,
                   "cached_tokens": 0,
-                  "input_tokens": 226,
+                  "input_tokens": 357,
                   "output_tokens": 0
                 }
               }
             },
-            "input_tokens": 2206,
+            "input_tokens": 2411,
             "input_tokens_details": {
               "cache_write_tokens": 0,
               "cached_tokens": 0
             },
-            "output_tokens": 258,
+            "output_tokens": 169,
             "output_tokens_details": {
-              "reasoning_tokens": 102
+              "reasoning_tokens": 0
             },
-            "total_tokens": 2464
+            "total_tokens": 2580
           },
-          "inputTokens": 2206,
-          "outputTokens": 258,
+          "inputTokens": 2411,
+          "outputTokens": 169,
           "cachedTokens": 0
         }
       ],
@@ -1159,6 +1192,115 @@
         "sum": 0
       },
       "hasUncertainty": true
+    }
+  ],
+  "dialogues": [
+    {
+      "id": "normal",
+      "measurement": "component wall-clock benchmark: live photo request + recorded WAV duration + live intent request; excludes human thinking time",
+      "photoRecognitionMs": 8352,
+      "recordingMs": 8580,
+      "intentMs": 5255,
+      "timeToUsefulResultMs": 22187,
+      "timeToSettledMs": 22187,
+      "settled": true,
+      "outcome": [
+        2300,
+        1584,
+        891
+      ],
+      "estimatedVariableCostUSD": 0.000903175,
+      "costIncludes": [
+        "photo recognition",
+        "intent reasoning",
+        "browser speech direct operator cost USD 0",
+        "all recorded retries in these requests",
+        "configured intermediary estimate"
+      ]
+    },
+    {
+      "id": "shared",
+      "measurement": "component wall-clock benchmark: live photo request + recorded WAV duration + live intent request; excludes human thinking time",
+      "photoRecognitionMs": 8352,
+      "recordingMs": 11155,
+      "intentMs": 6970,
+      "timeToUsefulResultMs": 26477,
+      "timeToSettledMs": 26477,
+      "settled": true,
+      "outcome": [
+        1882,
+        1793,
+        1100
+      ],
+      "estimatedVariableCostUSD": 0.0009087749999999999,
+      "costIncludes": [
+        "photo recognition",
+        "intent reasoning",
+        "browser speech direct operator cost USD 0",
+        "all recorded retries in these requests",
+        "configured intermediary estimate"
+      ]
+    },
+    {
+      "id": "correction",
+      "measurement": "component wall-clock benchmark: live photo request + recorded WAV duration + live intent request; excludes human thinking time",
+      "photoRecognitionMs": 8352,
+      "recordingMs": 13170,
+      "intentMs": 9159,
+      "timeToUsefulResultMs": 30681,
+      "timeToSettledMs": 30681,
+      "settled": true,
+      "outcome": [
+        1882,
+        1793,
+        1100
+      ],
+      "estimatedVariableCostUSD": 0.00118125,
+      "costIncludes": [
+        "photo recognition",
+        "intent reasoning",
+        "browser speech direct operator cost USD 0",
+        "all recorded retries in these requests",
+        "configured intermediary estimate"
+      ]
+    },
+    {
+      "id": "ambiguous",
+      "measurement": "component wall-clock benchmark: live photo request + recorded WAV duration + live intent request; excludes human thinking time",
+      "photoRecognitionMs": 8352,
+      "recordingMs": 2065,
+      "intentMs": 2937,
+      "timeToUsefulResultMs": 13354,
+      "timeToSettledMs": null,
+      "settled": false,
+      "outcome": "Which coffee did Sam have: Coffee #1 or Coffee #2?",
+      "estimatedVariableCostUSD": 0.000850675,
+      "costIncludes": [
+        "photo recognition",
+        "intent reasoning",
+        "browser speech direct operator cost USD 0",
+        "all recorded retries in these requests",
+        "configured intermediary estimate"
+      ]
+    },
+    {
+      "id": "unreadable",
+      "measurement": "component wall-clock benchmark: live photo request + recorded WAV duration + live intent request; excludes human thinking time",
+      "photoRecognitionMs": 5353,
+      "recordingMs": 0,
+      "intentMs": 0,
+      "timeToUsefulResultMs": 5353,
+      "timeToSettledMs": null,
+      "settled": false,
+      "outcome": "Pasta",
+      "estimatedVariableCostUSD": 0.000599375,
+      "costIncludes": [
+        "photo recognition",
+        "intent reasoning",
+        "browser speech direct operator cost USD 0",
+        "all recorded retries in these requests",
+        "configured intermediary estimate"
+      ]
     }
   ]
 }

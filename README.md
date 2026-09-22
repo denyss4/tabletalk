@@ -1,160 +1,131 @@
-# Tabletalk
+# TableTalk
 
-Tabletalk is a browser prototype for splitting a restaurant receipt from a photo and spoken instructions. It recognizes printed rows, keeps repeated items distinct, accepts corrections, asks about ambiguity, and shows final totals only after every item and receipt amount reconcile.
+TableTalk is a mobile-first browser prototype for splitting a restaurant receipt from a photo and spoken allocation commands. AI proposes receipt data and intent; deterministic application code owns allocation state, integer-cent arithmetic, corrections, settlement and exact reconciliation.
 
-This repository was created for the supplied AI-First Product Builder assignment. It supports English, EUR, up to ten printed rows, three people, one shared item, and one clearly printed service charge.
+## Links
+
+- Repository: https://github.com/denyss4/tabletalk
+- Vercel deployment: https://tabletalk-m61svx7sk-denys15.vercel.app
+- Walkthrough: `evidence/tabletalk-walkthrough.webm` (17.80 seconds, 1280×720)
+
+The recorded Vercel production deployment currently redirects anonymous visitors to Vercel Login. Disable deployment protection or invite the reviewer before submission, then verify the URL in an incognito window.
 
 ## Run locally
 
-Requirements: Node.js 22.13 or newer and a key for the configured OpenAI-compatible provider.
+Requirements: Node.js 22.13 or later.
 
-1. Copy `.env.example` to `.env` and set `OPENAI_API_KEY`. Keep it server-side; never use a `NEXT_PUBLIC_` name.
-2. Install dependencies with `npm ci`.
-3. Start the app with `npm run dev` and open `http://localhost:5173`.
-
-Custom receipt uploads are always available. The selected image is kept if recognition fails; use **Retry recognition** after resolving the reported error. **Check connection** refreshes configuration without discarding the photo. A key must belong to a project with available API credit; `INSUFFICIENT_QUOTA` blocks both photo extraction and speech transcription. The labelled allocation example remains optional and is never presented as recognition evidence.
-
-Run the checks with:
-
-```text
-npm run typecheck
-npm test
-npm run build
+```bash
+npm install
+copy .env.example .env
+npm run dev
 ```
 
-## Deploy to Vercel
+Open `http://localhost:5173`.
 
-Import this repository with the **Next.js** framework preset. Leave the Output Directory override disabled so Vercel uses the framework default (`.next`). The checked-in `vercel.json` fixes the framework and build command for new deployments.
+Set `OPENAI_API_KEY` only on the server. `OPENAI_BASE_URL` may point to the OpenAI API or an HTTPS OpenAI-compatible provider. Set `SPEECH_MODE=provider` when that provider supports `/audio/transcriptions`; use `SPEECH_MODE=browser` for the browser Web Speech API.
 
-Configure these server environment variables in Vercel for Production and Preview as needed:
+Cost exports use these configurable estimates:
 
-```text
-OPENAI_API_KEY=your-provider-key
-OPENAI_BASE_URL=https://www.rsiai.net/v1
-OPENAI_MODEL=gpt-5.6-sol
-SPEECH_MODE=browser
+```dotenv
+AI_INPUT_USD_PER_MILLION=0.175
+AI_CACHED_INPUT_USD_PER_MILLION=0.0175
+AI_OUTPUT_USD_PER_MILLION=1.05
+AI_AUDIO_USD_PER_MINUTE=0.003
+AI_PRICING_DATE=2026-09-22
 ```
 
-The build does not require a key, but live receipt and voice interpretation do. Never add the key to the repository or use a `NEXT_PUBLIC_` prefix.
+The checked-in defaults are an evaluation benchmark: 7% of public GPT-5.4 token rates, matching RSI AI's public “GPT 93% off” claim. They are not an RSI invoice. Replace them with account rates when available.
 
-## Product flow
+## Supported flow
 
-1. Add a clear JPG, PNG, or WebP receipt photo.
-2. Check the recognized rows against the original image.
-3. Edit the three names, choose **Start voice command**, allow microphone access, speak, then choose **Stop recording**. Alternatively upload an English voice recording.
-4. Answer a focused clarification when an item or amount is ambiguous.
-5. Review each row and the final totals. Export the session evidence when the split is settled.
+1. Upload a JPG, PNG or WebP receipt, or select a receipt template.
+2. Review the recognized rows and any unreadable fields.
+3. Say who had each item. Browser mode converts microphone speech to a transcript; provider mode uploads the recording for transcription.
+4. Resolve repeated-item ambiguity through voice or explicit row choices.
+5. Confirm proposed changes to unreadable receipt amounts.
+6. Correct ownership with commands such as “Actually, the second coffee was Sam's.”
+7. Review final totals only after every row is allocated and the receipt reconciles exactly.
+8. Export session evidence containing input state, operations, retries, timing, cost assumptions and verification.
 
-The UI also permits explicit owner choices. These are the fallback for microphone denial, timeouts, or ambiguous repeated items; the user never types receipt rows or amounts into a form.
-
-## Architecture
-
-```mermaid
-flowchart LR
-    Photo[Receipt photo] --> Vision[Structured receipt extraction]
-    Voice[Voice recording] --> STT[Speech transcription]
-    STT --> Intent[Structured allocation intent]
-    Vision --> Validate[Schema and receipt validation]
-    Intent --> Validate
-    Validate --> Core[Deterministic state and integer-cent math]
-    Core --> Clarify{Resolved?}
-    Clarify -- no --> Choice[Voice answer or explicit choice]
-    Choice --> Core
-    Clarify -- yes --> Totals[Verified person totals]
-```
-
-AI output is treated as a proposal. The server constrains responses to JSON schemas, then validates IDs, amounts, people, row limits, currency, repeated-item references, and supported sharing before state changes. Totals and service allocation never come from the model.
-
-The main modules are:
-
-- `lib/split.ts`: stable item IDs, state transitions, exact apportionment, settlement verification.
-- `lib/intent.ts`: intent validation, repeated-item ambiguity guard, receipt confirmation application.
-- `app/api/receipt/route.ts`: image extraction with uncertain values preserved as `null`.
-- `app/api/voice/route.ts`: transcription followed by allocation-intent extraction.
-- `lib/use-tabletalk.ts`: browser recording, corrections, undo, timing, cost and evidence export.
+The sample dialog offers **Run transcript** when browser speech is configured. This sends the script paired with the WAV fixture through the live intent model for reproducible testing. It is explicitly labelled and does not claim to test microphone transcription.
 
 ## Deterministic rules
 
-- All money is a non-negative safe integer in minor currency units.
-- A quantity row is expanded to stable unit IDs such as `r1.1` and `r1.2`.
-- An assignment is an absolute replacement. Repeating a command is idempotent, and “the second coffee was Sam's” changes the existing second coffee instead of adding a charge.
-- A shared item is split equally. For an indivisible cent, largest remainder allocation is used; ties follow the fixed left-to-right person order.
-- Service charge is split in proportion to each person's item subtotal. Floors are assigned first, then remaining cents go to the largest fractional remainders; ties use the same person order.
-- The split can settle only when all item units are allocated, uncertain receipt fields are confirmed, rows equal the printed subtotal, subtotal plus service equals the printed total, and person totals equal that total.
-- The prototype enforces the assignment limit of one shared item.
+- All money is represented as integer euro cents.
+- Quantities expand into stable item IDs. Repeated items remain separate, numbered units.
+- An assignment replaces the current owners of an item; repeating a correction cannot duplicate a charge.
+- At most one item may be shared. Its cents are divided equally.
+- Service is allocated in proportion to each person's item subtotal.
+- Shared and service rounding use largest remainder. Equal remainders use fixed table order: Alex, Sam, Lee.
+- Settlement requires readable receipt values, all item units allocated once, subtotal reconciliation and an exact sum to the receipt total.
+- Any unresolved question or proposed receipt edit hides final shares and prevents the **Balanced** state.
 
-## AI tools, models and reused components
+## Reproducible test set
 
-- Current receipt vision and intent mapping: `gpt-5.6-sol` through RSI AI at `https://www.rsiai.net/v1/responses`, with strict structured output and local validation. The model and base URL are server configuration.
-- Current speech-to-text: browser SpeechRecognition; final transcripts go to RSI AI for intent mapping. RSI AI has no channel for the tested transcription model. Recording upload is unavailable in browser mode. Direct OpenAI mode can use `gpt-4o-mini-transcribe`.
-- Generated test receipt photos: OpenAI image generation. The photos are fictional and shareable.
-- Synthetic test speech: Microsoft Zira Desktop through Windows System.Speech. The manifest records every utterance and identifies the recordings as synthetic.
-- UI foundation: the supplied React starter running through Next.js, Tailwind CSS, Radix-based components, Lucide icons, and Zod.
+| Scenario                | Input                                          | Expected outcome                               |
+| ----------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Normal                  | `receipt.jpg` + `normal.wav`                   | €23.00 / €15.84 / €8.91                        |
+| Shared                  | `receipt.jpg` + `shared.wav`                   | €18.82 / €17.93 / €11.00                       |
+| Correction              | `before-correction.wav`, then `correction.wav` | Coffee #2 changes owner; six units remain      |
+| Ambiguous repeated item | `ambiguous.wav`                                | Ask which coffee; remain unsettled             |
+| Unreadable              | `receipt-unreadable.jpg`                       | Pasta amount remains `null`; decline to settle |
 
-Own changes include the product interface, receipt and intent schemas, validation pipeline, allocation state, exact arithmetic, ambiguity rules, evidence logger, test fixtures, tests, and delivery documentation.
+Inputs and scripts are in `public/samples`. Ground truth was recorded before testing in `evidence/expected-results.json`. The app also processes arbitrary uploaded photos through the same endpoint; `custom-receipt.png` is an independent recognition check.
 
-## Test set and results
+## Measured results
 
-Ground truth was saved in `evidence/expected-results.json` before the deterministic test run. Inputs live in `public/samples`.
+`scripts/verify-recognition.mjs` calls the live photo and intent routes and writes `evidence/live-recognition-results.json` plus `evidence/dialogue-results.json`.
 
-| Scenario | Expected | Current verified result |
-| --- | --- | --- |
-| Normal | Alex €23.00, Sam €15.84, Lee €8.91 | Pass in deterministic core |
-| Shared fries | Alex €18.82, Sam €17.93, Lee €11.00 | Pass in deterministic core and browser |
-| Correction | Before: €21.90/€14.85/€11.00; after: €18.82/€17.93/€11.00 | Pass in deterministic core and browser |
-| “Sam had a coffee” | Ask which coffee; do not silently allocate | Pass in intent validation |
-| Obscured pasta price | Remain unsettled; ask for the amount or a clearer photo | Pass in deterministic core |
+| Scenario   |       Useful/settled time |       Settled | Estimated variable cost |
+| ---------- | ------------------------: | ------------: | ----------------------: |
+| Normal     |                  22.187 s |           Yes |               $0.000903 |
+| Shared     |                  26.477 s |           Yes |               $0.000909 |
+| Correction |                  30.681 s |           Yes |               $0.001181 |
+| Ambiguous  | 13.354 s to clarification | No, by design |               $0.000851 |
+| Unreadable | 5.353 s to blocked result | No, by design |               $0.000599 |
 
-Fifteen deterministic and intent tests pass. The browser check covers allocation, exact totals, correction, hiding unresolved totals, undo, renaming people, and a 390 px mobile viewport with no horizontal overflow. The production build succeeds.
+Timing is a reproducible component wall-clock benchmark: live photo request + recorded WAV duration + live intent request. It excludes human thinking time. Browser speech has an estimated direct operator cost of $0 because it creates no separately billed app API call. Physical microphone capture still requires a manual HTTPS-browser check.
 
-Live RSI AI image extraction passed for both reference and independent custom receipts. Normal, shared, correction, and ambiguous commands passed using supplied test transcripts. The unreadable price remained null. See evidence/live-recognition-results.json. These transcript tests do not verify microphone transcription.
+Hosting is reported separately: Vercel Hobby is assumed at $0/month and $0 variable cost while the personal prototype remains within included usage. Recheck plan eligibility and usage before commercial use.
 
-## Measurement and cost
+## Verification
 
-The app starts its timer when a photo flow or example begins and stops only when the split is settled. This includes user recording and clarification time. Every recognition operation stores model, status, latency, provider usage, estimated variable cost, and pricing basis. The evidence export includes failed calls, recordings, revisions, verification output, and time to the first and latest settled result.
-
-Pricing assumptions recorded on 18 September 2026:
-
-- GPT-4.1 mini: $0.40 per million input tokens, $0.10 cached input, $1.60 output.
-- GPT-4o mini transcription: estimated $0.003 per audio minute.
-- Speech output: $0 because the prototype uses text and explicit choices for clarifications.
-- Paid recognition intermediaries: none.
-- Hosting is reported separately and is not included in per-dialogue cost.
-
-No live provider calls have been measured yet, so current actual AI spend is $0.00000 and is **not** a valid estimate of full operating cost. After configuring the key, run all five scenarios and export each session before submission. Failed-call cost remains unknown if the provider returns no usage; the export flags this instead of reporting a false zero.
-
-## Known gaps before submission
-
-- Configure the server key and run the sample photo, shared split, correction, ambiguity, and unreadable-photo scenarios through the live pipeline.
-- Copy actual latency, token/audio usage, retries and cost from each exported session into the delivery notes.
-- Test microphone permission and recording on the final HTTPS deployment.
-- Record the three-minute walkthrough.
-- Replace the current wall-clock evidence with an honest focused-work time log. Repository timestamps span 18–19 September and include inactive time, so they are not presented as focused hours.
-
-See [DELIVERY.md](./DELIVERY.md) for the submission checklist and current expected/actual report.
-
-## Custom receipt and voice verification
-
-Run `node scripts/verify-recognition.mjs` while the server is running to call the real photo and voice routes (provider charges apply). It records results in `evidence/live-recognition-results.json`, including failures and usage. The independent input is `public/samples/custom-receipt.png`; expected amounts were recorded in `evidence/custom-receipt-expected.json` before testing.
-
-The current run passed live receipt extraction and interpretation of supplied transcripts via RSI AI. Physical microphone transcription remains unverified. Microphone use requires localhost or HTTPS, browser speech support, and permission. Browser speech may send audio to the browser vendor. The API status checks configuration presence, not account billing or model access.
-
-API formats follow the official [image input guide](https://developers.openai.com/api/docs/guides/images-vision) and [file transcription guide](https://developers.openai.com/api/docs/guides/speech-to-text).
-
-## Provider configuration
-
-For RSI AI, keep the key server-side in the ignored .env file and set:
-
-```text
-OPENAI_BASE_URL=https://www.rsiai.net/v1
-OPENAI_MODEL=gpt-5.6-sol
-SPEECH_MODE=browser
+```bash
+npm test
+npm run typecheck
+npm run lint
+npm run build
+node scripts/browser-check.mjs       # requires the app on port 5173
+node scripts/verify-recognition.mjs  # live provider calls; charges may apply
+node scripts/record-walkthrough.mjs  # requires Playwright FFmpeg
 ```
 
-Browser speech submits final recognized words only; partial or cancelled speech never changes allocations. On browsers without SpeechRecognition, the app reports the limitation and the row controls remain usable. Recorded audio files are not interpreted in browser mode. API keys are never sent to the browser, and provider redirects are not followed.
+Current automated result: **24/24 tests pass**, including exact remainder conservation, ambiguous repeated items, correction idempotence, rename/Undo consistency and browser speech event deduplication. The browser check verifies exact totals, unresolved-state gating, mobile overflow, name restoration and 44-pixel button targets.
 
-RSI AI fees and browser speech costs are unverified. They are exported as null/unknown with provider identity and token usage, never as zero or as direct OpenAI pricing. The older OpenAI price assumptions above apply only when using the original direct OpenAI models.
+## Architecture
 
-## Real receipt templates
+- `app/api/receipt/route.ts`: constrained receipt extraction with uncertain values preserved as `null`.
+- `app/api/voice/route.ts`: transcription or supplied browser transcript followed by structured intent extraction.
+- `lib/intent.ts`: validates AI intent against stable item/person IDs and protects repeated-item ambiguity.
+- `lib/split.ts`: pure allocation, integer apportionment, service allocation and settlement checks.
+- `lib/session-state.ts`: roster rename and atomic history restoration.
+- `lib/use-tabletalk.ts`: browser session orchestration, recording, correction history, timings and evidence export.
 
-Choose **Browse receipt templates** in the empty state, or **Templates** beside an existing receipt. The three user-supplied photos have full previews and run through the same live recognition pipeline as uploads. They include unsupported currency/tax layouts and missing service details; they are not prefilled complete-split demos. See [template provenance and limitations](public/samples/templates/README.md), [expected results](evidence/template-expected-results.json), and [actual checks](evidence/template-actual-results.json).
+Reused components: Next.js, React, Zod, Radix/shadcn components, Lucide icons and Playwright. Project-specific work includes the receipt/intent schemas, prompts, deterministic split engine, history semantics, ambiguity validation, recognition UX, evidence instrumentation and test fixtures.
+
+## Tools and models
+
+- Recognition and intent provider: RSI AI OpenAI-compatible API.
+- Configured model during the recorded run: `gpt-5.6-sol` with low reasoning effort.
+- Live speech mode: browser `SpeechRecognition`, English (`en-US`).
+- Optional provider transcription default: `gpt-4o-mini-transcribe`.
+- Implementation assistance: OpenAI Codex desktop workflow plus the Impeccable frontend skill.
+- The exact model used to create the original synthetic receipt artwork was not retained; this is recorded as a provenance limitation rather than guessed.
+
+## Known limitations
+
+- The current Vercel deployment is access protected.
+- Physical microphone transcription has not been captured in automated evidence; browser speech cannot consume the WAV fixtures directly.
+- Focused historical implementation time was not tracked contemporaneously and cannot be reconstructed accurately.
+- RSI AI exposes usage but no per-model price metadata. Costs therefore use the documented configurable benchmark and should be checked against an invoice.
+- English, EUR, three people, ten printed rows and one shared item are intentional prototype limits.

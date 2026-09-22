@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-09-19T01:19:59.685Z",
+  "runAt": "2026-09-22T07:51:22.878Z",
   "liveRecognitionTested": false,
   "checks": [
     "sample allocation",
@@ -8,7 +8,8 @@
     "unresolved totals hidden",
     "undo",
     "mobile no overflow",
-    "rename people"
+    "rename then undo restores names",
+    "visible button touch targets are at least 44px"
   ],
   "consoleErrors": []
 }

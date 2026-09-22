@@ -1,0 +1,120 @@
+{
+  "testedAt": "2026-09-21T22:32:30.459Z",
+  "speechMode": "browser",
+  "provider": "https://www.rsiai.net",
+  "pricingAssumption": "RSI AI configured at 7% of public GPT-5.4 benchmark rates; browser speech direct operator cost USD 0; verify against provider invoice.",
+  "hosting": {
+    "plan": "Vercel Hobby",
+    "fixedMonthlyUSD": 0,
+    "variableUSDWithinIncludedQuota": 0
+  },
+  "dialogues": [
+    {
+      "id": "normal",
+      "measurement": "component wall-clock benchmark: live photo request + recorded WAV duration + live intent request; excludes human thinking time",
+      "photoRecognitionMs": 8352,
+      "recordingMs": 8580,
+      "intentMs": 5255,
+      "timeToUsefulResultMs": 22187,
+      "timeToSettledMs": 22187,
+      "settled": true,
+      "outcome": [
+        2300,
+        1584,
+        891
+      ],
+      "estimatedVariableCostUSD": 0.000903175,
+      "costIncludes": [
+        "photo recognition",
+        "intent reasoning",
+        "browser speech direct operator cost USD 0",
+        "all recorded retries in these requests",
+        "configured intermediary estimate"
+      ]
+    },
+    {
+      "id": "shared",
+      "measurement": "component wall-clock benchmark: live photo request + recorded WAV duration + live intent request; excludes human thinking time",
+      "photoRecognitionMs": 8352,
+      "recordingMs": 11155,
+      "intentMs": 6970,
+      "timeToUsefulResultMs": 26477,
+      "timeToSettledMs": 26477,
+      "settled": true,
+      "outcome": [
+        1882,
+        1793,
+        1100
+      ],
+      "estimatedVariableCostUSD": 0.0009087749999999999,
+      "costIncludes": [
+        "photo recognition",
+        "intent reasoning",
+        "browser speech direct operator cost USD 0",
+        "all recorded retries in these requests",
+        "configured intermediary estimate"
+      ]
+    },
+    {
+      "id": "correction",
+      "measurement": "component wall-clock benchmark: live photo request + recorded WAV duration + live intent request; excludes human thinking time",
+      "photoRecognitionMs": 8352,
+      "recordingMs": 13170,
+      "intentMs": 9159,
+      "timeToUsefulResultMs": 30681,
+      "timeToSettledMs": 30681,
+      "settled": true,
+      "outcome": [
+        1882,
+        1793,
+        1100
+      ],
+      "estimatedVariableCostUSD": 0.00118125,
+      "costIncludes": [
+        "photo recognition",
+        "intent reasoning",
+        "browser speech direct operator cost USD 0",
+        "all recorded retries in these requests",
+        "configured intermediary estimate"
+      ]
+    },
+    {
+      "id": "ambiguous",
+      "measurement": "component wall-clock benchmark: live photo request + recorded WAV duration + live intent request; excludes human thinking time",
+      "photoRecognitionMs": 8352,
+      "recordingMs": 2065,
+      "intentMs": 2937,
+      "timeToUsefulResultMs": 13354,
+      "timeToSettledMs": null,
+      "settled": false,
+      "outcome": "Which coffee did Sam have: Coffee #1 or Coffee #2?",
+      "estimatedVariableCostUSD": 0.000850675,
+      "costIncludes": [
+        "photo recognition",
+        "intent reasoning",
+        "browser speech direct operator cost USD 0",
+        "all recorded retries in these requests",
+        "configured intermediary estimate"
+      ]
+    },
+    {
+      "id": "unreadable",
+      "measurement": "component wall-clock benchmark: live photo request + recorded WAV duration + live intent request; excludes human thinking time",
+      "photoRecognitionMs": 5353,
+      "recordingMs": 0,
+      "intentMs": 0,
+      "timeToUsefulResultMs": 5353,
+      "timeToSettledMs": null,
+      "settled": false,
+      "outcome": "Pasta",
+      "estimatedVariableCostUSD": 0.000599375,
+      "costIncludes": [
+        "photo recognition",
+        "intent reasoning",
+        "browser speech direct operator cost USD 0",
+        "all recorded retries in these requests",
+        "configured intermediary estimate"
+      ]
+    }
+  ]
+}

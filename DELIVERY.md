@@ -1,89 +1,91 @@
-# Delivery notes — draft
+# TableTalk delivery notes
 
-## Current status
+## Submission status
 
-The deterministic product flow is implemented and verified locally. Live image recognition and transcript interpretation now pass through RSI AI. Physical microphone transcription, full-dialogue timing, provider pricing, public repository access, deployment verification, and the walkthrough video remain pending.
+The deterministic product flow, live photo recognition, live transcript interpretation, reproducible fixtures, measured component timings, estimated variable costs, browser regression and walkthrough video are complete.
 
-Do not submit this document as complete until every item marked **pending** has an actual measured result.
+Two external checks remain before sending the assignment:
 
-## Reproducible inputs
+1. Disable Vercel deployment protection or invite the reviewer. The current production URL returns Vercel Login to anonymous visitors.
+2. Run one microphone command in the final HTTPS deployment and export that session's evidence.
 
-- Readable receipt: `public/samples/receipt.jpg`
-- Partly unreadable receipt: `public/samples/receipt-unreadable.jpg`
-- Voice recordings and exact scripts: `public/samples/*.wav` and `public/samples/voices.json`
-- Expected outcomes recorded before testing: `evidence/expected-results.json`
-- Deterministic actual results: `evidence/core-results.json`
-- Browser actual results and screenshots: `evidence/browser-results.json`, `evidence/balanced-desktop.png`, `evidence/balanced-mobile.png`
+Focused historical implementation time was not recorded contemporaneously. Do not invent a number; state this as a measurement failure if a reliable time log cannot be recovered.
+
+## Deliverables
+
+- Repository: https://github.com/denyss4/tabletalk
+- Deployment: https://tabletalk-m61svx7sk-denys15.vercel.app (currently access protected)
+- Walkthrough: `evidence/tabletalk-walkthrough.webm` — 17.80 seconds, 1280×720
+- Setup and architecture: `README.md`
+- Expected outcomes: `evidence/expected-results.json`
+- Live results and raw usage: `evidence/live-recognition-results.json`
+- Dialogue timing/cost summary: `evidence/dialogue-results.json`
+- Browser results: `evidence/browser-results.json`
 
 ## Expected and actual results
 
-| Scenario | Expected outcome | Actual result |
-| --- | --- | --- |
-| Normal split | €23.00 / €15.84 / €8.91; total €47.75 | Deterministic core: pass. Live photo and voice: **pending** |
-| Shared fries | €18.82 / €17.93 / €11.00; total €47.75 | Core and browser: pass. Live photo and voice: **pending** |
-| Correction | Second coffee moves from Alex to Sam; item count stays six | Core and browser: pass. Live voice: **pending** |
-| Ambiguous coffee | Ask “Which coffee did Sam mean?” and remain unsettled | Intent validation: pass. Live voice: **pending** |
-| Unreadable pasta price | Ask for the amount or clearer photo; never conclude | Core gate: pass. Live vision: **pending** |
+| Scenario                   | Expected                                       | Actual                                       |
+| -------------------------- | ---------------------------------------------- | -------------------------------------------- |
+| Normal                     | €23.00 / €15.84 / €8.91                        | Pass; exact totals and settlement            |
+| Shared fries               | €18.82 / €17.93 / €11.00                       | Pass; shared row and proportional service    |
+| Correction                 | Coffee #2 changes to Sam; six units remain     | Pass; stable ID replaced and count stays six |
+| Ambiguous coffee           | Ask which coffee and remain unsettled          | Pass; no assignment applied                  |
+| Unreadable pasta           | Preserve unknown amount and decline settlement | Pass; amount is `null`, row uncertain        |
+| Independent custom receipt | Three recorded rows, €21.45 total              | Pass; matched preregistered expected values  |
 
-## Checks completed
+## Measurements
 
-- 15/15 arithmetic, state and intent tests pass.
-- Type checking passes.
-- Production build passes.
-- Browser test passes for exact totals, shared item, correction, unresolved-state gate, undo, renamed people, and mobile overflow.
-- An explicit check confirms repeated command delivery does not count an item twice.
-- An explicit check confirms service and shared-item remainders preserve the exact total for 1,000 generated amounts.
+| Scenario                   |   Photo | Recorded speech duration |  Intent |            Useful/settled | Variable cost |
+| -------------------------- | ------: | -----------------------: | ------: | ------------------------: | ------------: |
+| Normal                     | 8.352 s |                  8.580 s | 5.255 s |                  22.187 s |     $0.000903 |
+| Shared                     | 8.352 s |                 11.155 s | 6.970 s |                  26.477 s |     $0.000909 |
+| Correction, two utterances | 8.352 s |                 13.170 s | 9.159 s |                  30.681 s |     $0.001181 |
+| Ambiguous                  | 8.352 s |                  2.065 s | 2.937 s |      13.354 s to question |     $0.000851 |
+| Unreadable                 | 5.353 s |                        — |       — | 5.353 s to blocked result |     $0.000599 |
 
-## What failed or remains unverified
+These are measured component wall-clock totals from the live integration run on 22 September 2026. They include the real recorded WAV duration and live API latency, and exclude human thinking time. Ambiguous and unreadable cases correctly have no settled time.
 
-- RSI AI is configured at https://www.rsiai.net/v1 with model gpt-5.6-sol. Live photo extraction and supplied-transcript interpretation pass; results are in evidence/live-recognition-results.json. This provider has no channel for the tested audio model, so browser SpeechRecognition is used for live speech. Physical microphone transcription and intermediary pricing remain unverified.
-- The first long-running development preview loaded stale optimized React bundles after dependency installation. A clean restart fixed it; the subsequent browser flow passed without console errors.
-- The production build now runs through Next.js and produces the `.next` output expected by Vercel, including `routes-manifest.json` and all three API routes.
-- Focused time was not tracked accurately. Calendar timestamps include inactive time and must not be reported as focused work.
+## Cost assumptions
 
-## AI output check example
+- RSI AI returned token usage but no pricing metadata.
+- RSI AI publicly advertises GPT at 93% off. The prototype therefore uses 7% of public GPT-5.4 rates as a reproducible benchmark: $0.175/M input, $0.0175/M cached input and $1.05/M output.
+- Rates are configuration values, not hard-coded claims, and should be replaced with invoice rates when available.
+- Browser speech creates no separately billed application API call, so direct operator variable cost is estimated as $0. Failed attempts and retries remain in the exported operations list.
+- No speech synthesis is used.
+- Hosting is separate: Vercel Hobby is assumed at $0/month within included usage for this personal prototype. Recheck before commercial use.
 
-The intent layer deliberately distrusts model output. A proposed command assigning `r1.1` for “Sam had a coffee” is inspected against the receipt, notices two coffee units and no ordinal, removes the proposed assignment, and returns both coffee IDs as explicit choices. A test verifies that state is unchanged until the user answers. Receipt fields work similarly: a spoken unreadable amount is staged and must be confirmed before the receipt changes.
+Sources checked 22 September 2026:
 
-## Measurement table to complete after live runs
+- https://www.rsiai.net/
+- https://developers.openai.com/api/docs/models/gpt-5.4
+- https://vercel.com/docs/plans/hobby
 
-| Scenario | Photo recognition | Transcription | Intent mapping | Clarifications or retries | Time to settled | Variable cost |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Normal | pending | pending | pending | pending | pending | pending |
-| Shared | pending | pending | pending | pending | pending | pending |
-| Correction | pending | pending | pending | pending | pending | pending |
-| Ambiguous | pending | pending | pending | pending | unresolved by design | pending |
-| Unreadable | pending | pending if clarified | pending | pending | unresolved or clarified | pending |
+## Tools, models and reuse
 
-Hosting cost must be listed separately using the actual selected hosting plan. Free credits should be converted to the provider's normal unit price.
+- RSI AI OpenAI-compatible Responses API; `gpt-5.6-sol`, low reasoning effort.
+- Browser `SpeechRecognition`, `en-US`; optional `gpt-4o-mini-transcribe` when a compatible provider supports audio.
+- Next.js 16, React 19, Zod, Radix/shadcn, Lucide and Playwright.
+- OpenAI Codex desktop workflow and the Impeccable frontend skill were used during implementation.
+- Reused libraries supply framework, validation primitives, UI primitives, icons and browser automation.
+- Original work includes receipt and intent schemas, prompts, deterministic cent arithmetic, correction/Undo state, ambiguity guards, evidence export, fixtures and scenario validation.
 
-## Three-minute walkthrough outline
+## Output check example
 
-1. **0:00–0:20** — State scope: English, EUR, three people, ten rows, one shared item. Show the test set and pre-recorded ground truth.
-2. **0:20–0:55** — Upload the readable receipt and show recognized rows, printed totals, and the original-photo comparison.
-3. **0:55–1:25** — Play the shared scenario. Show fries split between all three, proportional service, and exact €47.75 verification.
-4. **1:25–1:45** — Say “Actually, the second coffee was Sam's.” Show that one existing item changes owner and totals rebalance.
-5. **1:45–2:10** — Run “Sam had a coffee.” Show the two explicit choices and that final totals disappear until clarification.
-6. **2:10–2:30** — Upload the obscured receipt. Show the app asking for the pasta amount and refusing to settle.
-7. **2:30–2:50** — Open session evidence: actual time, operation usage, costs, recordings, and verification output.
-8. **2:50–3:00** — Name the main limitation and next improvement.
+For “Sam had a coffee,” the model may propose one coffee ID. The validator compares the transcript with the two stable coffee units. Because no coffee-specific ordinal or collective phrase is present, it removes the assignment and returns both IDs as explicit choices. An unrelated phrase such as “first burger” cannot satisfy this coffee check. State stays unchanged until the user chooses or answers the question.
 
-## Next product improvements
+## Failures and limitations
 
-The first improvement would be better recovery for difficult receipts: crop and rotate assistance plus targeted rereading of a single row. Next would be tests on varied receipt typography and accents, followed by support for more than one shared item and unequal shares. Payments remain outside scope.
+- Physical microphone speech has not been recorded in the final hosted environment. Supplied transcripts test the live intent model; WAV fixtures are retained for manual microphone/provider checks.
+- The Vercel production deployment succeeds but is access protected.
+- RSI AI pricing is estimated because the provider exposes no model price metadata.
+- The exact generator model for the original synthetic receipt artwork was not retained.
+- Focused time was not tracked contemporaneously.
 
-## RSI AI integration run
+## Final manual checks
 
-All requests below reached the real provider. Command requests used supplied test transcripts, not microphone recordings.
-
-| Scenario | Actual result | Request duration |
-| --- | --- | --- |
-| Independent RIVER CAFE photo | 3 rows; 19.50 subtotal + 1.95 service = 21.45 EUR | 5.416 s |
-| Reference photo | All six prices and 47.75 EUR total match ground truth | 7.964 s |
-| Normal transcript | 23.00 / 15.84 / 8.91 EUR | 3.550 s |
-| Shared transcript | 18.82 / 17.93 / 11.00 EUR | 4.168 s |
-| Correction transcript | Second coffee reassigned; six items preserved | 3.056 s |
-| Ambiguous transcript | Question asked; no silent allocation | 2.709 s |
-| Unreadable photo | Pasta price null; settlement blocked | 8.583 s |
-
-Durations are API request times, not complete voice dialogue times. Token usage is saved; full variable cost is unknown until RSI AI pricing and any browser speech fees are confirmed. No direct OpenAI rate is substituted for RSI AI charges.
+1. Make the Vercel deployment reviewer-accessible.
+2. Open it in an incognito Chrome window on HTTPS.
+3. Upload a new receipt and verify recognition.
+4. Allow microphone access and run one normal or correction command.
+5. Export evidence and add the microphone result to this document.
+6. Play `evidence/tabletalk-walkthrough.webm` and confirm it remains under three minutes.
