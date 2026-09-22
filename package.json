@@ -10,7 +10,9 @@
     "dev": "next dev -p 5173",
     "build": "next build",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/split.test.mjs tests/intent.test.mjs tests/browser-speech.test.mjs",
+    "test": "npm run test:unit && npm run test:regression",
+    "test:unit": "vitest run",
+    "test:regression": "node --test tests/split.test.mjs tests/intent.test.mjs tests/browser-speech.test.mjs",
     "start": "next start -p 5173",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
@@ -59,6 +61,7 @@
     "typescript": "5.9.3",
     "vinext": "1.0.0-beta.5",
     "vite": "8.0.13",
+    "vitest": "^5.0.1",
     "wrangler": "4.92.0"
   },
   "type": "module",

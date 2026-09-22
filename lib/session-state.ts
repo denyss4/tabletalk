@@ -1,5 +1,15 @@
 import type { Person, SplitState } from "./split";
 
+export const DEFAULT_PEOPLE = [
+  { id: "p1", name: "Alex" },
+  { id: "p2", name: "Sam" },
+  { id: "p3", name: "Lee" },
+] as const satisfies readonly Person[];
+
+export function createDefaultPeople(): Person[] {
+  return DEFAULT_PEOPLE.map((person) => ({ ...person }));
+}
+
 export function renamePeople(people: Person[], names: string[]): Person[] {
   const clean = names.map((name) => name.trim());
   if (
@@ -7,7 +17,9 @@ export function renamePeople(people: Person[], names: string[]): Person[] {
     clean.some((name) => !name || name.length > 30) ||
     new Set(clean.map((name) => name.toLowerCase())).size !== clean.length
   ) {
-    throw new Error("Enter three different names, up to 30 characters each.");
+    throw new Error(
+      "Enter one different name for each person, up to 30 characters each.",
+    );
   }
 
   return people.map((person, index) => ({

@@ -6,12 +6,12 @@ export type Item = { id: string; rowId: string; name: string; amountMinor: numbe
 export type Allocation = Record<string, string[]>;
 export type SplitState = { receipt: Receipt; people: Person[]; allocation: Allocation; revision: number };
 export type Assignment = { itemIds: string[]; personIds: string[] };
-export const PEOPLE: Person[] = [{ id: 'p1', name: 'Alex' }, { id: 'p2', name: 'Sam' }, { id: 'p3', name: 'Lee' }];
 export const money = (amount: number | null) => amount === null ? 'Unreadable' : new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(amount / 100);
 export const receiptAmountLabel = (amount: number | null, status: ReceiptFieldStatus) => amount !== null ? money(amount) : status === 'not_printed' ? 'Not printed' : 'Unreadable';
 export function isMinor(n: unknown): n is number { return typeof n === 'number' && Number.isSafeInteger(n) && n >= 0 && n <= 100_000_000; }
-// Largest remainder; supplied stable order breaks ties. BigInt keeps products exact.
-export function apportion(total: number, weights: number[]): number[] {
+// Largest remainder. Equal remainders are awarded by the stable index supplied
+// by the caller. Display names never participate in cent allocation.
+export function apportion(total: number, weights: readonly number[]): number[] {
   if (!isMinor(total) || !weights.length || weights.some(w => !isMinor(w))) throw new Error('Invalid money or weights.');
   const sum = weights.reduce((a, b) => a + BigInt(b), 0n);
   if (!sum) { if (total) throw new Error('Cannot distribute a charge over zero subtotal.'); return weights.map(() => 0); }
@@ -53,7 +53,7 @@ export function applyAssignments(state: SplitState, assignments: Assignment[]): 
   const next = structuredClone(state.allocation);
   const touched = new Set<string>();
   for (const assignment of assignments) {
-    if (!assignment.itemIds.length || assignment.personIds.length > 3 || new Set(assignment.personIds).size !== assignment.personIds.length || assignment.personIds.some(id => !people.has(id))) throw new Error('Choose people already at this table.');
+    if (!assignment.itemIds.length || assignment.personIds.length > state.people.length || new Set(assignment.personIds).size !== assignment.personIds.length || assignment.personIds.some(id => !people.has(id))) throw new Error('Choose people already at this table.');
     for (const id of assignment.itemIds) {
       if (!itemIds.has(id) || touched.has(id)) throw new Error('A command refers to an unknown or duplicate item. Please clarify.');
       touched.add(id);
@@ -65,7 +65,7 @@ export function applyAssignments(state: SplitState, assignments: Assignment[]): 
 }
 export function calculate(state: SplitState) {
   validateReceipt(state.receipt);
-  if (state.people.length < 1 || state.people.length > 3 || new Set(state.people.map(p => p.id)).size !== state.people.length) throw new Error('Use one to three distinct people.');
+  if (state.people.length < 1 || state.people.some(p => !p.id) || new Set(state.people.map(p => p.id)).size !== state.people.length) throw new Error('Use at least one person with a distinct stable ID.');
   const items = itemsOf(state.receipt);
   const issues: string[] = [...state.receipt.warnings];
   const knownIds = new Set(items.map(x => x.id));

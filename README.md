@@ -8,7 +8,7 @@ TableTalk is a mobile-first browser prototype for splitting a restaurant receipt
 - Vercel deployment: https://tabletalk-m61svx7sk-denys15.vercel.app
 - Walkthrough: `evidence/tabletalk-walkthrough.webm` (17.80 seconds, 1280×720)
 
-The recorded Vercel production deployment currently redirects anonymous visitors to Vercel Login. Disable deployment protection or invite the reviewer before submission, then verify the URL in an incognito window.
+The recorded Vercel production deployment currently redirects anonymous visitors to Vercel Login. Follow [the public access runbook](docs/vercel-public-access.md), then verify the URL in an incognito window.
 
 ## Run locally
 
@@ -57,7 +57,7 @@ The sample dialog offers **Run transcript** when browser speech is configured. T
 - An assignment replaces the current owners of an item; repeating a correction cannot duplicate a charge.
 - At most one item may be shared. Its cents are divided equally.
 - Service is allocated in proportion to each person's item subtotal.
-- Shared and service rounding use largest remainder. Equal remainders use fixed table order: Alex, Sam, Lee.
+- Shared and service rounding use largest remainder. Equal remainders use stable person-array order, independent of IDs and display names.
 - Settlement requires readable receipt values, all item units allocated once, subtotal reconciliation and an exact sum to the receipt total.
 - Any unresolved question or proposed receipt edit hides final shares and prevents the **Balanced** state.
 

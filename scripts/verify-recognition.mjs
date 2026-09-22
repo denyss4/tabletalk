@@ -1,6 +1,7 @@
 // Calls the running app and incurs provider charges. Never reads or prints secrets.
 import fs from "node:fs";
-import { PEOPLE, applyAssignments, calculate, itemsOf } from "../lib/split.ts";
+import { applyAssignments, calculate, itemsOf } from "../lib/split.ts";
+import { createDefaultPeople } from "../lib/session-state.ts";
 import { sampleReceipt } from "../lib/sample.ts";
 const base = process.env.TABLETALK_URL || "http://localhost:5173";
 const status = await fetch(base + "/api/status").then((r) => r.json());
@@ -133,7 +134,7 @@ function dialogue(id, photoRecord, voiceRecords, settled, outcome) {
 }
 const fresh = (receipt) => ({
   receipt: structuredClone(receipt),
-  people: structuredClone(PEOPLE),
+  people: createDefaultPeople(),
   allocation: {},
   revision: 0,
 });

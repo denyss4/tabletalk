@@ -1,11 +1,12 @@
 ﻿import test from "node:test";
 import assert from "node:assert/strict";
-import { PEOPLE, applyAssignments, calculate, itemsOf } from "../lib/split.ts";
+import { applyAssignments, calculate, itemsOf } from "../lib/split.ts";
 import { sampleReceipt } from "../lib/sample.ts";
 import { validateIntent, confirmReceipt } from "../lib/intent.ts";
+import { createDefaultPeople } from "../lib/session-state.ts";
 const fresh = () => ({
   receipt: structuredClone(sampleReceipt),
-  people: structuredClone(PEOPLE),
+  people: createDefaultPeople(),
   allocation: {},
   revision: 0,
 });
@@ -75,13 +76,14 @@ test("both coffees may be assigned explicitly to one person", () => {
   assert.equal(parsed.question, null);
 });
 test("invalid clarification targets are rejected", () => {
-  assert.throws(() =>
-    validateIntent(
-      fresh(),
-      { ...intent([]), question: "Which?", candidateItemIds: ["r99.1"] },
-      "Which?",
-    ),
+  const result = validateIntent(
+    fresh(),
+    { ...intent([]), question: "Which?", candidateItemIds: ["r99.1"] },
+    "Which?",
   );
+  assert.equal(result.status, "unresolved_question");
+  assert.equal(result.reason, "invalid_item_id");
+  assert.deepEqual(result.assignments, []);
 });
 test("a spoken amount proposal does not mutate receipt until confirmed", () => {
   const state = fresh();

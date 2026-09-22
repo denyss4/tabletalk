@@ -2,7 +2,6 @@
 import assert from "node:assert/strict";
 import { readFileSync, writeFileSync } from "node:fs";
 import {
-  PEOPLE,
   apportion,
   applyAssignments,
   calculate,
@@ -14,6 +13,7 @@ import {
   renameReceiptMerchant,
   renameSplitPeople,
   restoreSplitSnapshot,
+  createDefaultPeople,
 } from "../lib/session-state.ts";
 const expected = JSON.parse(
   readFileSync(
@@ -23,7 +23,7 @@ const expected = JSON.parse(
 );
 const fresh = () => ({
   receipt: structuredClone(sampleReceipt),
-  people: structuredClone(PEOPLE),
+  people: createDefaultPeople(),
   allocation: {},
   revision: 0,
 });
@@ -177,7 +177,7 @@ test("rename and undo restore one consistent set of people", () => {
   );
   assert.deepEqual(
     restored.people.map((person) => person.name),
-    PEOPLE.map((person) => person.name),
+    createDefaultPeople().map((person) => person.name),
   );
   assert.equal(restored.revision, renamed.revision + 1);
 });

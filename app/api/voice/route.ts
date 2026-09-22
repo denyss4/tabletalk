@@ -110,7 +110,7 @@ export async function POST(request: Request) {
     );
     const intent = validateIntent(
       state,
-      intentSchema.parse(raw),
+      raw,
       transcript,
       pendingIntent,
     );

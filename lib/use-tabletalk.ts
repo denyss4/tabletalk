@@ -1,7 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  PEOPLE,
   applyAssignments,
   calculate,
   itemsOf,
@@ -12,14 +11,15 @@ import {
 } from "./split";
 import { sampleReceipt } from "./sample";
 import type { ReceiptTemplate } from "./receipt-templates";
-import { confirmReceipt } from "./intent";
-import type { Confirmation, Intent } from "./schemas";
+import { confirmReceipt, type ValidatedIntent } from "./intent";
+import type { Confirmation } from "./schemas";
 import type { Operation } from "./ai";
 import { listenForSpeech, speechConstructor } from "./browser-speech";
 import {
   renamePeople,
   renameReceiptMerchant,
   restoreSplitSnapshot,
+  createDefaultPeople,
 } from "./session-state";
 export type Activity = {
   at: string;
@@ -35,7 +35,7 @@ export function useTabletalk() {
   useEffect(() => {
     stateRef.current = state;
   }, [state]);
-  const [roster, setRoster] = useState<Person[]>(structuredClone(PEOPLE));
+  const [roster, setRoster] = useState<Person[]>(createDefaultPeople);
   const [photo, setPhoto] = useState("");
   const [example, setExample] = useState(false);
   const [speechMode, setSpeechMode] = useState<"browser" | "provider">(
@@ -53,7 +53,7 @@ export function useTabletalk() {
   const busyRef = useRef(false);
   const [error, setError] = useState("");
   const [configured, setConfigured] = useState<boolean | null>(null);
-  const [pending, setPending] = useState<Intent | null>(null);
+  const [pending, setPending] = useState<ValidatedIntent | null>(null);
   const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
   const [operations, setOperations] = useState<Operation[]>([]);
   const [activity, setActivity] = useState<Activity[]>([]);
@@ -188,7 +188,7 @@ export function useTabletalk() {
       error?: string;
       code?: string;
       receipt: Receipt;
-      intent: Intent;
+      intent: ValidatedIntent;
       transcript: string;
       revision: number;
     };
@@ -465,14 +465,14 @@ export function useTabletalk() {
   function applyVoiceResult(data: {
     revision: number;
     transcript: string;
-    intent: Intent;
+    intent: ValidatedIntent;
   }) {
     if (stateRef.current?.revision !== data.revision)
       throw new Error(
         "The receipt changed during recognition. Please repeat that command.",
       );
     note(data.transcript, "voice");
-    const intent: Intent = data.intent;
+    const intent = data.intent;
     if (intent.assignments.length) {
       commit(applyAssignments(stateRef.current!, intent.assignments));
       note(
@@ -486,7 +486,7 @@ export function useTabletalk() {
         a.itemIds.some((id) => pending.candidateItemIds.includes(id)),
       ) ||
       !!intent.confirmation;
-    if (intent.question) setPending(intent);
+    if (intent.status === "unresolved_question") setPending(intent);
     else if (resolvedPrevious) setPending(null);
     setConfirmation(intent.confirmation);
   }
